@@ -1,0 +1,13 @@
+import { Slider } from '@mui/material'     <Slider/>
+import {Typography} from '@mui/material'   <Typography> text here </Typography>
+
+import { Carousel } from 'react-responsive-carousel';    
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+
+import {toast} from'react-hot-toast'
+import { useDispatch, useSelector } from 'react-redux'
+
+import ReactStars from 'react-rating-stars-component'     <ReactStars {...options}/>
+
+
+
