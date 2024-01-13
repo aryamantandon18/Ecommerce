@@ -1,6 +1,7 @@
 import {app} from'./app.js'
 import { connectDB } from './data/database.js';
 import cloudinary from 'cloudinary';
+import Razorpay from 'razorpay'; 
 
 process.on("uncaughtException",(err)=>{
     console.log(`err : ${err.message}`);
@@ -13,6 +14,11 @@ cloudinary.config({
     api_key:process.env.CLOUDINARY_API_KEY,
     api_secret:process.env.CLOUDINARY_API_SECRET,
 
+})
+
+export const instance = new Razorpay({
+    key_id : process.env.RAZORPAY_API_KEY,
+    key_secret : process.env.RAZORPAY_API_SECRET
 })
 
 connectDB();

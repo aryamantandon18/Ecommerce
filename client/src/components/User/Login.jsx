@@ -24,14 +24,14 @@ const Login = () => {
     }
     useEffect(()=>{
         if(error){
+        toast.error(error);
          dispatch({type:CLEAR_ERRORS});
-         toast.error(error);
          return;
         }   
         if(isAuthenticated){
             navigate("/");
         }
-    },[dispatch,error,isAuthenticated]);
+    },[dispatch,error,isAuthenticated,navigate]);
 
   return (
     <Fragment>
@@ -52,7 +52,7 @@ const Login = () => {
               {/* <label htmlFor='password'>Password</label> */}
               <input className={styles.Logininput} type='password' placeholder='Password' id='password' ref={passwordElement} required/>
               
-              <Link to="" className={styles.fp}>Forgot Password?</Link>
+              <Link to="/password/forgot" className={styles.fp}>Forgot Password?</Link>   
               <button type='submit' className={styles.Loginbutton}>Login</button>
               <div className={styles.social}>
                   <div className={styles.go}>Google</div>

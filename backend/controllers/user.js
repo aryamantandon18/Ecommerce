@@ -92,11 +92,11 @@ export const forgotPassword = asyncHandler(async(req,res,next)=>{
   return next(new ErrorHandler("user not found ", 404));
  }
  //Get resetpswdToken
- const resetTOken = user.getResetPasswordToken();
+ const resetToken = user.getResetPasswordToken();
  await user.save({validateBeforeSave:false})
 
- const resetPasswordUrl = `${req.protocol}://${req.get("host")}/password/reset/${resetTOken}`;
- const message = `Your reset Password token is \n\n${resetPasswordUrl}\n\nIf you have not requested this email , then please ignore this !`;
+ const resetPasswordUrl = `${process.env.FRONTEND_URL}/password/reset/${resetToken}`;
+ const message = `Your reset Password token is \n\n${resetPasswordUrl} \n\nIf you have not requested this email , then please ignore this !`;
  try {
   
   await sendEmail({
@@ -116,6 +116,38 @@ export const forgotPassword = asyncHandler(async(req,res,next)=>{
   return next(new ErrorHandler(error.message , 500));
  }
 });  
+
+export const resetPassword = asyncHandler(async(req,res,next)=>{
+  const resetPasswordToken = crypto
+  .createHash("sha256")
+  .update(req.params.token)
+  .digest("hex");
+
+  const user = await Users.findOne({
+    resetPasswordToken,
+    resetPasswordExpire:{$gt: Date.now()},
+  })
+
+  if(!user){
+    return next(new ErrorHandler("Reset password token is invalid or has been expired",400))
+  }
+
+  if (!req.body.password) {
+    throw new ErrorHandler('Password cannot be empty',400);
+  }
+
+  if (req.body.password !== req.body.confirmPassword) {
+    return next(new ErrorHandler("Password does not password",400));
+  }
+  user.password = req.body.password;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpire = undefined;
+
+  await user.save();
+
+  sendCookie( res,user,"Password Reset Successfully");
+
+})
 
   export const updatePassword = asyncHandler(async(req,res)=>{
     const user = await Users.findById(req.user._id).select("+password");

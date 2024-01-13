@@ -9,5 +9,17 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import ReactStars from 'react-rating-stars-component'     <ReactStars {...options}/>
 
+we can access Link tag in css using "a" (anchor tag notation)
+we can target Typography tag using "p" in css
 
 
+In React Router v6, the Routes component replaces the Switch component, and the Route component is replaced by the Route element inside the Routes component. Additionally, the element prop is replaced by the element JSX attribute. Here's your code adapted for React Router v6:
+
+import { DataGrid } from '@mui/x-data-grid';
+import { Step, Stepper,StepLabel, Typography } from '@mui/material'
+
+import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+
+npm i chart.js react-chartjs-2

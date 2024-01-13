@@ -48,11 +48,16 @@ export const getSingleOrder = asyncHandler(async(req,res,next)=>{
 })
 
 export const myOrders = asyncHandler(async(req,res,next)=>{
-    const orders = await Order.find({user : req.user._id});
+  try {
+    console.log("User:", req.user);
+    const orders = await Order.find({user:req.user._id});
     res.status(200).json({
         success:true,
         orders
     })  
+  } catch (error) {
+    return next(new ErrorHandler("orders not found",404));
+  }
 })
 //for admin
 export const getAllOrders = asyncHandler(async(req,res,next)=>{

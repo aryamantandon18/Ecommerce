@@ -1,5 +1,5 @@
+import { Rating } from '@mui/material';
 import React from 'react'
-import RatingStars from 'react-rating-stars-component'
 import {Link} from "react-router-dom";
 
 
@@ -11,11 +11,11 @@ export const ProductCard =({product})=>{
         isHalf:true,
     }
     return(
-        <Link className='productCard' to={`/products/${product._id}`}>
+        <Link className='productCard' to={`/product/${product._id}`}>
             <img src={product.images[0].url} alt={product.name}/>
             <p>{product.name}</p>
       <div>
-        <RatingStars {...options} />
+        <Rating {...options} />
         <span className="productCardSpan">
           ({product.numOfReviews} Reviews)
         </span>

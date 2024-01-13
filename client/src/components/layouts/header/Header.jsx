@@ -41,6 +41,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../../actions/userActions';
 import UserOptions from './UserOptions';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const options = {
     burgerColorHover: "#eb4034",
@@ -95,6 +96,7 @@ const Header = () => {
   <ul>
       <li > <Link className='link' style={{textDecoration:"none"}} to="/">HOME</Link></li>
       <li > <Link className='link' style={{textDecoration:"none"}} to="/products">PRODUCTS</Link></li>
+      <li > <Link className='link' style={{textDecoration:"none"}} to={isAuthenticated?"/cart":"/login"}><ShoppingCartIcon/></Link></li>
       {isAuthenticated? (
         <UserOptions user={user} />
       ):(

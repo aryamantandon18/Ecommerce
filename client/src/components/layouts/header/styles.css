@@ -24,6 +24,15 @@
   list-style: none;
   transition: all 0.5s;
 }
+.link>svg{
+  color:black
+}
+.link>svg:hover,
+.link>svg:active,
+.link>svg:focus{
+  color:rgb(88, 88, 255);   
+}
+
 .link:hover,
 .link:active,
 .link:focus{

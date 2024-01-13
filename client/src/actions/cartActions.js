@@ -7,7 +7,7 @@ import {
   
   // Add to Cart
   export const addItemsToCart = (id, quantity) => async (dispatch, getState) => {
-    const { data } = await axios.get(`/api/v1/product/${id}`);
+    const { data } = await axios.get(`/product/${id}`);
   
     dispatch({
       type: ADD_TO_CART,
@@ -16,12 +16,12 @@ import {
         name: data.product.name,
         price: data.product.price,
         image: data.product.images[0].url,
-        stock: data.product.Stock,
+        stock: data.product.stock,
         quantity,
       },
     });
   
-    localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
+    localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));  //we save the cart item in the loacalStorage so that on reloading the state will become empty and cart items should not removed 
   };
   
   // REMOVE FROM CART
@@ -33,3 +33,11 @@ import {
   
     localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
   };
+
+  export const saveShippingInfo = (data)=> async(dispatch)=>{
+    dispatch({
+      type:SAVE_SHIPPING_INFO,
+      payload:data
+    })
+    localStorage.setItem("shippingInfo",JSON.stringify(data));
+  }

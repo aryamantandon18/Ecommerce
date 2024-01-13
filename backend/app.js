@@ -6,6 +6,8 @@ import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import { errorMiddleWare } from './middleWares/error.js';
 import orderRouter from './routes/order.js'
+import paymentRouter from './routes/paymentRoutes.js'
+
 export const app = express();
 import cors from 'cors'
 import fileUpload from 'express-fileupload';
@@ -17,7 +19,7 @@ config({
 //using middleware
 app.use(express.json());
 app.use(cookieParser());
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({extended:true})); // so that we can access data from req.body 
 app.use(fileUpload());
 app.use(cors({
     origin:[process.env.frontend_uri],                // Specify the allowed origins
@@ -27,7 +29,8 @@ app.use(cors({
 
 app.use("/users",userRouter);
 app.use(productRouter);
-app.use("/orders",orderRouter);
+app.use(orderRouter);
+app.use(paymentRouter);
 
 app.get("/",(req,res)=>{
     res.send("Nice Working"); 

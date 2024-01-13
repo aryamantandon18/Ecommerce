@@ -4,7 +4,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import PersonIcon from '@mui/icons-material/Person';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ListAltIcon from '@mui/icons-material/ListAlt';
-import Backdrop from '@mui/material/Backdrop';
+// import Backdrop from '@mui/material/Backdrop';
 import {useNavigate} from 'react-router-dom';
 import { logout } from '../../../actions/userActions';
 import { useDispatch } from 'react-redux';
@@ -16,7 +16,7 @@ const UserOptions = ({user}) => {
     const dispatch =useDispatch();
     const options=[
         {icon:<ListAltIcon/>,name:"Orders",func:orders},
-        {icon:<PersonIcon/>,name:"Prodile",func:profile},
+        {icon:<PersonIcon/>,name:"Profile",func:profile},
         {icon:<ExitToAppIcon/>,name:"Logout",func:logoutUser},
         
     ];
@@ -44,7 +44,7 @@ const UserOptions = ({user}) => {
 
   return (
     <Fragment>
-        <Backdrop open={open} />
+        {/* <Backdrop open={open} /> */}
         <SpeedDial
            ariaLabel="SpeedDial tooltip example"
            onClose={() => setOpen(false)}
