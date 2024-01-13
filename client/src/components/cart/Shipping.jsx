@@ -1,5 +1,6 @@
 import React,{Fragment,useState} from 'react'
 import  styles from './Shipping.module.css'
+// import styles from './temp.module.css'
 import { saveShippingInfo } from '../../actions/cartActions'
 import { useDispatch,useSelector } from 'react-redux'
 import PinDropIcon from '@mui/icons-material/PinDrop';
@@ -13,6 +14,7 @@ import MetaData from '../layouts/MetaData';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import CheckOutSteps from './CheckOutSteps';
+import TextField from '@mui/material/TextField';
 
 const Shipping = () => {
     const {shippingInfo} = useSelector((state)=>state.cart);
@@ -43,13 +45,12 @@ const Shipping = () => {
       <MetaData title="Shipping Info"/>
       <div className={styles.componentWrapper}>
          <div className={styles.head} >
-     
-             <div className={styles.background}>
+              <div className={styles.background}>
                  <div class={styles.shape}></div>
                  <div class={styles.shape}></div>
              </div>   
-             
-         <form onSubmit={HandleSubmit} className={styles.loginForm} encType='multipart/form-data' style={{height:"629px"}}>
+             <div>
+             <form onSubmit={HandleSubmit} className={styles.loginForm} encType='multipart/form-data'>
              <h3 >Shipping Info</h3>
              <div>
              <HomeIcon /> 
@@ -98,6 +99,7 @@ const Shipping = () => {
              <button type='submit' className={styles.Loginbutton}>Update</button>
            
          </form>
+             </div>
      </div>
      </div>
     </Fragment>

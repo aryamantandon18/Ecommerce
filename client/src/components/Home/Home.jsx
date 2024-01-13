@@ -7,6 +7,7 @@ import{ getProduct} from '../../actions/productActions.js'
 import {useSelector,useDispatch} from 'react-redux'
 import Loader from '../layouts/loader/Loader.jsx';
 import toast from 'react-hot-toast';
+import { Carousel } from 'react-responsive-carousel';
 // import { useNavigate } from 'react-router-dom';
 
 // const products =[
@@ -92,6 +93,7 @@ import toast from 'react-hot-toast';
       <MetaData title="ECOMMERCE" />
  
  <div className="banner">
+ 
    <p>Welcome to Ecohub Ecommerce</p>
    <h1>FIND AMAZING PRODUCTS BELOW</h1>
 
