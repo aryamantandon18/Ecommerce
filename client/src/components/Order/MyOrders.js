@@ -96,6 +96,7 @@ const MyOrders = () => {
               className="myOrdersTable"
               autoHeight
             />
+            
             <Typography id="myOrdersHeading">
               {user.name}'s Orders
             </Typography>

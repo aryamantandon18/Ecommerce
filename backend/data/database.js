@@ -5,5 +5,5 @@ export const connectDB =()=>{
     dbName:"Ecommerce",
 })
 .then((c)=> console.log(`Database Connect with ${c.connection.host}`))
-// .catch((e)=> console.error(e.message));
+.catch((e)=> console.error(e.message));
 }

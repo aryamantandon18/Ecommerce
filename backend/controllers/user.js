@@ -64,11 +64,13 @@ export const Login = async(req,res,next)=>{
   next(error)
  }
 };
-export const getMyProfile = (req,res)=>{
-
+export const getMyProfile = async(req,res,next)=>{
+  console.log("Before user")
+  const user = await Users.findById(req.user._id);
+console.log(user);
    res.status(201).json({
         success : true,
-        user:req.user,
+        user,
     })
 };
 

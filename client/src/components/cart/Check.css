@@ -1,3 +1,4 @@
+
 .MuiStepConnector-line {
     display: none !important;
   }
@@ -9,5 +10,5 @@
   
   .MuiStepConnector-active,
   .MuiStepConnector-completed {
-    background-color: tomato;
+    background-color: #1F74BA
   }

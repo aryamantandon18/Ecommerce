@@ -34,48 +34,14 @@
 //   );
 // };
 import React from 'react'
-import logo from '../../../images/logo.png'
-import {ReactNavbar} from "overlay-navbar";
+// import {ReactNavbar} from "overlay-navbar";
 import "./styles.css";
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../../actions/userActions';
 import UserOptions from './UserOptions';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-
-const options = {
-    burgerColorHover: "#eb4034",
-    logo,
-    logoWidth: "20vmax",
-    navColor1: "white",
-    logoHoverSize: "10px",
-    logoHoverColor: "#eb4034",
-    link1Text: "Home",
-    link2Text: "Products",
-    link3Text: "Login",
-    link4Text: "About",
-    link1Url: "/",
-    link2Url: "/products",
-    link3Url: "/login",
-    link4Url: "/about",
-    link1Size: "1.3vmax",
-    link1Color: "rgba(35, 35, 35,0.8)",
-    nav1justifyContent: "flex-end",
-    nav2justifyContent: "flex-end",
-    nav3justifyContent: "flex-start",
-    nav4justifyContent: "flex-start",
-    link1ColorHover: "#eb4034",
-    link1Margin: "1vmax",
-    profileIconUrl: "/login",
-    profileIconColor: "rgba(35, 35, 35,0.8)",
-    searchIconColor: "rgba(35, 35, 35,0.8)",
-    cartIconColor: "rgba(35, 35, 35,0.8)",
-    profileIconColorHover: "#eb4034",
-    searchIconColorHover: "#eb4034",
-    cartIconColorHover: "#eb4034",
-    cartIconMargin: "1vmax",
-  };
-
+import logo from './flipkart.png'
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -89,18 +55,18 @@ const Header = () => {
    <>
    <div className='navbar'>
     <div className='leftPart'>
-    <img className='img' src='https://tse2.mm.bing.net/th?id=OIP.N8lpFFzPlemdfTyTgwRSnwHaGX&pid=Api&P=0&h=180'/>
-    <h1 className='heading'>Ecommerce</h1>
+      <img src={logo}/>
+    <h1 className='heading'>Flipkart</h1>
     </div>
   <div className='rightPart'>
   <ul>
       <li > <Link className='link' style={{textDecoration:"none"}} to="/">HOME</Link></li>
       <li > <Link className='link' style={{textDecoration:"none"}} to="/products">PRODUCTS</Link></li>
-      <li > <Link className='link' style={{textDecoration:"none"}} to={isAuthenticated?"/cart":"/login"}><ShoppingCartIcon/></Link></li>
-      {isAuthenticated? (
-        <UserOptions user={user} />
-      ):(
-      <li > <Link className='link' style={{textDecoration:"none"}} to="/login">LOGIN</Link></li>)}
+      <li > <Link className='link' style={{textDecoration:"none"}} to={isAuthenticated?"/cart":"/login"}><div>
+      <ShoppingCartIcon/>CART
+        </div></Link></li>
+        <li ><Link className='link' style={{textDecoration:"none"}} to="/login">
+      {isAuthenticated? <UserOptions user={user} />:"LOGIN"} </Link></li>
     </ul>
   </div>
    </div>

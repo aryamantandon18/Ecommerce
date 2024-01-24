@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./styles/App.scss";
 import Header from "./components/layouts/header/Header.jsx";
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import webFont from "webfontloader";
 import Footer from "./components/layouts/footer/Footer.jsx";
 import Home from "./components/Home/Home";
@@ -31,6 +31,9 @@ import ElementLayout from "./ElementLayout.js";
 import MyOrders from "./components/Order/MyOrders.js";
 import OrderDetails from "./components/Order/OrderDetails.js";
 import Dashboard from './components/Admin/Dashboard.jsx'
+import NewProduct from "./components/Admin/NewProduct.jsx";
+import ProductList from "./components/Admin/ProductList.jsx";
+import UserOptions from "./components/layouts/header/UserOptions.jsx";
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -49,12 +52,8 @@ function App() {
   return (
     <Router>
       <Header />
-      {/* {stripeApiKey && (
-        <Elements stripe={loadStripe(stripeApiKey)}>
-          <ProtectedRoute exact path="/process/payment" component={Payment} />
-        </Elements>
-      )} */}
-
+     { console.log("Is use Loggeding checking authentication",isAuthenticated)}
+      {isAuthenticated && <UserOptions user={user} />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<ProductDetails />} />
@@ -89,8 +88,12 @@ function App() {
         <Route path="/order/:id"  element={<OrderDetails/>}/>
 
         <Route path="/admin/dashboard" element={<Dashboard/>}/>
-        
-      </Routes>
+
+        <Route path="/admin/products" element={<ProductList/>}/>
+        <Route path="/admin/product" element={<NewProduct/>}/>
+
+         </Routes>
+
       <Footer />
       <Toaster />
     </Router>

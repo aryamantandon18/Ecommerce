@@ -1,127 +1,112 @@
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-  }
-
-
-.componentWrapper{
-    /* display: flex;
+.shippingContainer{
+    width:100%;
+    border:2px solid black;
+    height:77.8vh;
+    display: flex;
     justify-content: center;
     align-items: center;
-    height: calc(100% - (height-of-header + height-of-slider)); */
-    /* & *,& *::before,& *:after{
-        padding:0;
-        margin: 0;
-        box-sizing: border-box;
-    } */
+    flex-direction: column;
+}
+  
+  .shippingBox {
+    background-color: white;
+    width: 25vw;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  
+  h3 {
+    text-align: center;
+    color: rgba(0, 0, 0, 0.664);
+    font: 400 1.5vmax "Roboto";
+    padding: 1.3vmax;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.205);
+    width: 50%;
+    margin: auto;
+  }
+  
+  .shippingForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    padding: 2vmax;
+    justify-content: space-evenly;
+    height: 80%;
+    transition: all 0.5s;
+  }
+  
+  .shippingForm > div {
+    display: flex;
+    width: 100%;
+    align-items: center;
+  }
+  
+  .shippingForm > div > input,
+  .shippingForm > div > select {
+    padding: 1vmax 4vmax;
+    padding-right: 1vmax;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.267);
+    border-radius: 4px;
+    font: 300 0.9vmax cursive;
+    outline: none;
+  }
+  
+  .shippingForm > div > svg {
+    position: absolute;
+    transform: translateX(1vmax);
+    font-size: 1.6vmax;
+    color: rgba(0, 0, 0, 0.623);
+  }
+  
+  .shippingBtn {
+    border: none;
+    background-color: #1F74BA;
+    color: white;
+    font: 300 1vmax "Roboto";
+    width: 100%;
+    padding: 1vmax;
+    cursor: pointer;
+    transition: all 0.5s;
+    outline: none;
+    margin: 2vmax;
+  }
+  
+  .shippingBtn:hover {
+    background-color: rgb(179, 66, 46);
+  }
+  
+  @media screen and (max-width: 600px) {
+    .shippingBox {
+      width: 100vw;
+      height: 95vh;
     }
-    .head{
-        z-index: -1;
-        width:99vw;
-        height:83vh;
-        display:flex;
-        align-items: center;
-        justify-content: center;
+  
+    .shippingHeading {
+      font: 400 6vw "Roboto";
+      padding: 5vw;
     }
-    .background{
-        /* width: 40vw; */
-        height: 80vh;
-        position: absolute;
-        transform: translate(-50%,-50%);
-        /* left: 50%;
-        top: 50%; */
+  
+    .shippingForm {
+      padding: 11vw;
     }
-    .background>.shape{
-        height:180px;
-        width:180px;
-        position:absolute; 
-         border-radius: 50%;
+  
+    .shippingForm > div > input,
+    .shippingForm > div > select {
+      padding: 5vw 10vw;
+      font: 300 4vw cursive;
     }
-    .shape:first-child{
-        background: linear-gradient(
-            #1845ad,
-            #23a2f6
-        );
-        left: -60px;
-        top: -30px;
+  
+    .shippingForm > div > svg {
+      font-size: 6vw;
+      transform: translateX(3vw);
     }
-    .shape:last-child{
-        background: linear-gradient(
-            to right,
-            #ff512f,
-            #f09819
-        );
-        right: -60px;
-        bottom: -87px;
+  
+    .shippingBtn {
+      font: 300 4vw "Roboto";
+      padding: 4vw;
     }
-
-    .loginForm {
-        width: 30vw;
-        height: 80vh;
-    /* background-color: rgba(255,255,255,0.13); */
-    background-color:#080710da;
-    position:absolute;
-    /* transform:translate(-50%,-45%); */
-    transform: scale(0.85);
-    top:10%;
-    left:35%;
-    border-radius: 10px;
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255,255,255,0.1);
-    box-shadow: 0 0 40px rgba(8,7,16,0.6);
-    padding: 50px 35px;
-    }
-    .loginForm *{
-        font-family: 'Poppins',sans-serif;
-        color: #ffffff;
-        letter-spacing: 0.5px;
-        border: none;
-        outline: none;
-    }
-    .loginForm > h3{
-        font-size: 32px;
-        font-weight: 500;
-        line-height: 30px;
-        text-align: center;
-    }
-
-    .Logininput:not(#profile){
-        display: block;
-        height: 50px;
-        width: 100%;
-        background-color: rgba(255,255,255,0.07);
-        border-radius: 3px;
-        padding: 0 3.5vmax;
-        margin-top: 25px;
-        font-size: 14px;
-        font-weight: 300;
-        /* padding-right: 1vmax; */
-    }
-    ::placeholder{
-        color: #e5e5e5;
-    }
-    .Loginbutton{
-        margin-top: 30px;
-        width: 100%;
-        background-color: #ffffff;
-        color: #080710;
-        padding: 15px 0;
-        font-size: 18px;
-        font-weight: 600;
-        border-radius: 5px;
-        cursor: pointer;
-        transform: scale(0.85);
-        position: relative;
-        /* top:10px; */
-    }
-   
-    .loginForm>div{
-        display:flex;
-
-    }
-    .loginForm>div>svg{
-        position: absolute;
-        transform: translate(1vmax,2.4vmax);   
-        font-size: 1.6vmax;
-    }
+  }
+  

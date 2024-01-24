@@ -1,3 +1,7 @@
+
+:root {
+  --main-color: #1F74BA;
+}
 .myOrdersPage {
   width: 100vw;
   max-width: 100%;
@@ -38,11 +42,11 @@
 }
 
 .myOrdersTable a:hover {
-  color: tomato;
+  color: var(--main-color);
 }
 
 .MuiDataGrid-columnHeader {
-  background-color: tomato;
+  background-color: var(--main-color);
   padding: 1vmax !important;
 }
 

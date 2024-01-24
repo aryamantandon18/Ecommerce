@@ -20,7 +20,7 @@ const productSchema = mongoose.Schema({
     },
     images:[
         {
-            product_id:{
+            public_id:{
                 type:String,
                 required:true
             },

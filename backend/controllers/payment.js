@@ -29,7 +29,7 @@ export const sendRazorpayApiKey = asyncHandler(async(req,res,next)=>{
 })
 
 export const paymentVerification = asyncHandler(async(req,res,next)=>{
-  const { paymentId, orderId } = req.body;
+  const { paymentId } = req.body;
 
   try {
     // Implement logic to verify payment

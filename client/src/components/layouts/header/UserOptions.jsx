@@ -20,7 +20,8 @@ const UserOptions = ({user}) => {
         {icon:<ExitToAppIcon/>,name:"Logout",func:logoutUser},
         
     ];
-    if(user.role==="admin"){
+    
+    if(user && user.role==="admin"){
         options.unshift({                  //unshift adds this object in front of the array
             icon:<DashboardIcon/>,
             name:"dashboard",

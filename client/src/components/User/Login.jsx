@@ -20,14 +20,13 @@ const Login = () => {
     const passwordElement = useRef();
     const dispatch = useDispatch();
     const {error,loading,isAuthenticated} = useSelector(state=>state.user);
+    
     const HandleSubmit =(e)=>{
          e.preventDefault();
         const email = emailElement.current.value;
         const password = passwordElement.current.value;
         dispatch(login(email,password));
     }
-
-    const handleClickShowPassword=()=>{setShow(!show)}
     useEffect(()=>{
         if(error){
         toast.error(error);

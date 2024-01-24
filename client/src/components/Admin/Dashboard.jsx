@@ -1,14 +1,33 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Sidebar from './SideBar.js'
 import {Doughnut,Line} from "react-chartjs-2";
 import { Link } from 'react-router-dom';
 import { Typography } from '@mui/material';
 import './Dashboard.css'
+import { useDispatch, useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
+import { clearErrors, getAdminProducts } from '../../actions/productActions.js';
 
 const Dashboard = () => {
+  const dispatch = useDispatch();
+const {error,products} = useSelector((state)=>state.products);
+  let outOfStock =0;
+  products &&
+  products.forEach((item)=>{
+    if(item.stock==0) outOfStock += 1;
+
+  })
+
+  useEffect(()=>{
+    if(error){
+      toast.error(error.message);
+      dispatch(clearErrors());
+    }
+    dispatch(getAdminProducts());
+  },[dispatch,error]);
 
   const lineState = {
-    labels: ["Initial Amount", "Amount Earned"],
+    labels: [0,1],
     datasets: [
       {
         label: "TOTAL AMOUNT",
@@ -25,7 +44,7 @@ const Dashboard = () => {
       {
         backgroundColor: ["#00A6B4", "#6800B4"],
         hoverBackgroundColor: ["#4B5000", "#35014F"],
-        data: [2,7],
+        data: [outOfStock,products.length - outOfStock],
       },
     ],
   };
@@ -41,9 +60,9 @@ const Dashboard = () => {
             </p>
           </div>
           <div className="dashboardSummaryBox2">
-            <Link to="/admin/product">
+            <Link to="/admin/products">
             <p>Product</p>
-            <p>50</p>
+            <p>{products && products.length}</p>
             </Link>
             <Link to="/admin/orders">
               <p>Orders</p>

@@ -8,6 +8,9 @@ import {useSelector,useDispatch} from 'react-redux'
 import Loader from '../layouts/loader/Loader.jsx';
 import toast from 'react-hot-toast';
 import { Carousel } from 'react-responsive-carousel';
+import imag1 from './imag1.webp'
+import imag2 from './imag2.png'
+import imag4 from './imag4.png'
 // import { useNavigate } from 'react-router-dom';
 
 // const products =[
@@ -75,7 +78,6 @@ import { Carousel } from 'react-responsive-carousel';
  const Home = () => {
   const {loading,error,products} = useSelector((state)=>state.products);
   //  const{isAuthenticated} = useContext(Context);
-  
    const dispatch = useDispatch();
    useEffect(()=>{
     if(error){
@@ -93,9 +95,30 @@ import { Carousel } from 'react-responsive-carousel';
       <MetaData title="ECOMMERCE" />
  
  <div className="banner">
- 
+ {/* <Carousel
+        infiniteLoop
+        autoPlay
+        showStatus={false}
+        showArrows={false}
+        showThumbs={false}
+        interval={1000}
+        className= 'banner crausal'
+      >
+          <div>
+          <img src={imag1} alt="Item1" className='crim' />
+          <p className="legend">Full Stack</p>
+        </div>
+        <div>
+          <img src={imag2} alt="Item1" className='crim'/>
+          <p className="legend">Full Stack</p>
+        </div>
+        <div>
+          <img src={imag4} alt="Item3" className='crim'/>
+          <p className="legend">Peer-to-peer Support</p>
+        </div>
+      </Carousel> */}
    <p>Welcome to Ecohub Ecommerce</p>
-   <h1>FIND AMAZING PRODUCTS BELOW</h1>
+   <h1>FIND AMAZING PRODUCTS BELOW</h1> 
 
    <a href='#container'>
      <button className='btn' onClick={()=>{}}>

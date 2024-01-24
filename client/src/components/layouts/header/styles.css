@@ -3,47 +3,57 @@
   padding: 0;
   box-sizing: border-box;
   width:100%;
-  height:7vh;
+  height:10vh;
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  /* position:fixed; */
+  background-color: white;
+  z-index: 10;
 }
 .leftPart{
   position: absolute;
-  left: 50px;
+  left: 40px;
   display: flex;
   align-items: center;
+  cursor:default;
+}
+.leftPart>img{
+ height: 8vh;
 }
 .rightPart ul{
   display: flex;
-
+  color:black
 }
 .rightPart>ul>li{
   font:300 1.2vmax "Roboto"; 
   padding: 0 50px;
   list-style: none;
-  transition: all 0.5s;
+  transition: all 0.7s;
 }
 .link>svg{
   color:black
 }
-.link>svg:hover,
-.link>svg:active,
-.link>svg:focus{
-  color:rgb(88, 88, 255);   
+.link>div{
+ display: flex;
+ align-items: center;
+}
+.link>div:hover,
+.link>div:active,
+.link>div:focus{
+  color:#1F74BA;  
 }
 
 .link:hover,
 .link:active,
 .link:focus{
-  color:rgb(88, 88, 255); 
+  color:#1F74BA;
   font-weight: 600;
 }
 .link:hover{
   transform: scale(1.2);
 }
 .img{
-
   width: 3.8vmax;
 }
 .heading{
@@ -137,12 +147,12 @@ transform: translate(0,0);
 }
 
 .speedDial{
-  position: fixed;
-  top:4.1vmax;
+  position:fixed;
+  top:0.7vmax;
   right:4vmax;
 }
 .speedDialIcon{
-  width:56px;
-  height:56px;
+  width:48px;
+  height:48px;
   border-radius: 100%;
 }

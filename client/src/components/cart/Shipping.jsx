@@ -43,20 +43,22 @@ const Shipping = () => {
     <Fragment>
       <CheckOutSteps activeStep={0}/>
       <MetaData title="Shipping Info"/>
-      <div className={styles.componentWrapper}>
-         <div className={styles.head} >
+      <div className={styles.shippingContainer}>
+         {/* <div className={styles.head} >
               <div className={styles.background}>
                  <div class={styles.shape}></div>
                  <div class={styles.shape}></div>
              </div>   
-             <div>
-             <form onSubmit={HandleSubmit} className={styles.loginForm} encType='multipart/form-data'>
+             <div> */}
+             <div className="shippingBox">
+             <form onSubmit={HandleSubmit} className={styles.shippingForm} encType='multipart/form-data'>
              <h3 >Shipping Info</h3>
+
              <div>
              <HomeIcon /> 
              <input className={styles.Logininput} type='text' placeholder='Address' required value={address} onChange={(e)=>setAddress(e.target.value)}/> </div>
         
-            <div>
+              <div>
              <LocationCityIcon/>
              <input className={styles.Logininput} type='text' placeholder='City'  required value={city} onChange={(e)=>setCity(e.target.value)}/> </div>
              
@@ -95,12 +97,10 @@ const Shipping = () => {
                 </select>
               </div>
             )}
-     
-             <button type='submit' className={styles.Loginbutton}>Update</button>
-           
-         </form>
-             </div>
-     </div>
+         <button type='submit' className={styles.shippingBtn}>Update</button>
+          
+       </form>
+       </div>
      </div>
     </Fragment>
   )

@@ -2,8 +2,28 @@ import ErrorHandler from "../middleWares/error.js";
 import Product from "../models/product.js";
 import {asyncHandler} from '../middleWares/AsyncErr.js'
 import ApiFeatures from "../utils/apiFeatures.js";
+import cloudinary from 'cloudinary';
 
 export const newProduct = asyncHandler(async(req,res,next)=>{
+  let images = [];
+  if(typeof req.body.images == 'string'){
+   images.push(req.body.images);
+  }else{
+   images = req.body.images;
+  }
+  const imagesLinks=[];
+  for(let i=0;i<images.length;i++){
+   const result = await cloudinary.v2.uploader.upload(images[i],{
+      folder:"products",
+   });
+
+   imagesLinks.push({
+      public_id: result.public_id,
+      url:result.secure_url,
+   })
+  }
+  req.body.images = imagesLinks;
+//   -----------------------------------------------------------------------------
    req.body.user = req.user.id;
    const product = await Product.create(req.body);
    res.status(201).json({
@@ -11,6 +31,14 @@ export const newProduct = asyncHandler(async(req,res,next)=>{
       product,
    })
 
+});
+//Get All products for Admin
+export const getAdminProducts = asyncHandler(async(req,res,next)=>{
+ const products = await Product.find();
+    res.status(200).json({
+        success:true,
+        products,
+     })
 });
 
 export const getAllProducts = asyncHandler(async(req,res,next)=>{
@@ -57,8 +85,15 @@ export const updateProduct = asyncHandler(async(req,res,next)=>{
 export const deleteProduct = asyncHandler(async (req, res) => {
    const product =  await Product.findById(req.params.id)
    if(product){
+      //deleting images from cloudinary
+      for (let i = 0; i < product.images.length; i++) {
+         await cloudinary.v2.uploader.destroy(product.images[i].public_id);
+       }
+       
        await Product.findOneAndDelete(req.params.id);
-       res.json({message : 'Product Removed'})
+       res.json({
+         success:true,
+         message : 'Product Removed'})
    } else{
       return next(new ErrorHandler("Product not found",404));
    }

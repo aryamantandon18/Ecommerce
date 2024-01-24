@@ -109,7 +109,7 @@
   }
   
   .orderSummary > button {
-    background-color: tomato;
+    background-color: #1F74BA;
     color: white;
     width: 100%;
     padding: 1vmax;
@@ -121,7 +121,8 @@
   }
   
   .orderSummary > button:hover {
-    background-color: rgb(192, 71, 50);
+    background-color: rgb(247, 226, 0);
+    color:black;
   }
   
   @media screen and (max-width: 600px) {

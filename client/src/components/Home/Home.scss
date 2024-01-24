@@ -1,27 +1,40 @@
 .banner{
     background-image: repeating-linear-gradient(to left, #6565e6,rgb(255, 255, 255),rgb(85, 210, 252));
-    height:100vmin;
+    height:60vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    z-index: 1;
     >h1{
         margin: 5vmax;
-        font:600 2.5vmax "Roboto";             //weight size style
+        font:600 2.5vmax "Roboto";   
+        z-index: 3;          //weight size style
     }
-    >p1{
+    >p{
         font:300 1.4vmax 'Lucida Sans';
+        z-index: 3;
     }
-    &::after{
-        content: '';
-        height :100vmin;
-        width: 100%;
-        background: rgb(255, 255, 255);
-        position: absolute;
-        max-width:100%;
-        clip-path: polygon(100% 74%, 0% 100%, 100% 100%);
-       }
+    // &::after{
+    //     content: '';
+    //     height :90vh;
+    //     width: 100%;
+    //     background: rgb(255, 255, 255);
+    //     position: absolute;
+    //     max-width:100%;
+    //     clip-path: polygon(100% 74%, 0% 100%, 100% 100%);
+    //    }
 }
+.crausal{
+position:absolute;
+z-index: 2;
+}
+.crim{
+ height:100%;
+ width: 100%;
+ object-fit: cover;
+}
+
 .btn{
     margin:1vmax;
     cursor: pointer;
@@ -52,6 +65,7 @@
   }
   
   .productCard > img {
+    height:14vmax;
     width: 14vmax;
   }
   
@@ -125,3 +139,7 @@
     justify-content: center;
     max-width: 100%;
   }
+  // div > img{
+  //  height:55vh;
+  //  width: 80vw;
+  // }

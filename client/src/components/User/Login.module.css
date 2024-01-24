@@ -7,8 +7,8 @@
 }
 .head{
     width:99vw;
-    height:100vh;
-    
+    height:90vh;
+    border-top: 2px solid #080710;
 }
 .background{
     width: 430px;
@@ -20,8 +20,8 @@
     top: 50%;
 }
 .background>.shape{
-    height:200px;
-    width:200px;
+    height:180px;
+    width:180px;
     position:absolute;
     border-radius: 50%;
 }
@@ -30,8 +30,8 @@
         #1845ad,
         #23a2f6
     );
-    left: -80px;
-    top: -30px;
+    left: -50px;
+    top: 0px;
 }
 .shape:last-child{
     background: linear-gradient(
@@ -39,11 +39,11 @@
         #ff512f,
         #f09819
     );
-    right: -70px;
+    right: -80px;
     bottom: -87px;
 }
 .loginForm {
-height:540px;
+height:500px;
 width:400px;
 background-color: #080710da;
 position:absolute;
@@ -55,6 +55,8 @@ backdrop-filter: blur(10px);
 border: 2px solid rgba(255,255,255,0.1);
 box-shadow: 0 0 40px rgba(8,7,16,0.6);
 padding: 50px 35px;
+margin: 20px;
+border: 2px solid grey;
 }
 .loginForm *{
     font-family: 'Poppins',sans-serif;
@@ -176,4 +178,23 @@ cursor: pointer;
 .pswd svg{
     position: absolute;
     transform: translate(-1.5vmax,-1.9vmax);   
+}
+
+@media screen and (max-width: 600px) {
+    .background>.shape{
+        height:100px;
+        width:100px;
+    }
+    .background>.shape:first-child{
+        left: 20px;
+        top: -10px;
+    }
+    .background>.shape:last-child{
+        right: 20px;
+        bottom: -55px;
+    }
+    .loginForm{
+        height:55vh;
+        width:77vw; 
+    }
 }
