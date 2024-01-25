@@ -38,10 +38,12 @@ const NewProduct = () => {
     "Footwear",
     "Bottom",
     "Tops",
-    "Attire",
+    "Electronics",
     "Camera",
     "SmartPhones",
     "Cars",
+    "Shoes",
+    "Watch",
   ];
 
   useEffect(()=>{

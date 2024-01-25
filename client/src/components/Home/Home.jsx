@@ -79,8 +79,10 @@ import imag4 from './imag4.png'
   const {loading,error,products} = useSelector((state)=>state.products);
   //  const{isAuthenticated} = useContext(Context);
    const dispatch = useDispatch();
+
    useEffect(()=>{
     if(error){
+      console.error("Error fetching products:", error);
       return toast.error(error.message);
     }
     dispatch(getProduct());

@@ -17,9 +17,11 @@ const categories = [
   "Footwear",
   "Phone",
   "Tops",
-  "Attire",
+  "Electronics",
   "Camera",
   "SmartPhones",
+  "Shoes",
+  "Watch",
 ];
 
 const Products = () => {

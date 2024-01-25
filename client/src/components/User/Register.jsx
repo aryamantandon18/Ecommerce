@@ -73,7 +73,7 @@ const Register = () => {
         </div>   
         
     <form onSubmit={HandleSubmit} className={styles.loginForm} encType='multipart/form-data'>
-        <h3 style={{lineHeight:"0px"}}>Register Here</h3>
+        <h3 style={{lineHeight:"0px"}}>Register Here </h3>
         {/* <label htmlFor='username'>Name</label> */}
         <input className={styles.Logininput} type='text' placeholder='Username' id='username' name='name' required value={name} onChange={registerUserHandler}/>
 
