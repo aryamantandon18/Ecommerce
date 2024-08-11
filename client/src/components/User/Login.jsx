@@ -13,8 +13,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 
 const Login = () => {
-    const[show,setShow] = useState(false);
-
+    const[show,setShow] = useState(false)
     const navigate = useNavigate();
     const emailElement = useRef();
     const passwordElement = useRef();
@@ -28,6 +27,7 @@ const Login = () => {
         dispatch(login(email,password));
     }
     useEffect(()=>{
+      if(isAuthenticated==false) return
         if(error){
         toast.error(error);
          dispatch({type:CLEAR_ERRORS});
@@ -41,40 +41,31 @@ const Login = () => {
   return (
     <Fragment>
         {loading?<Loader/>:(
-            <div className={styles.componentWrapper}>
-              <div className={styles.head}>
-
-              <div className={styles.background}>
-                  <div class={styles.shape}></div>
-                  <div class={styles.shape}></div>
-              </div>   
-              
-          <form onSubmit={HandleSubmit} className={styles.loginForm}>
-              <h3>Login Here</h3>
-              {/* <label htmlFor={styles.username}>Email</label> */}
-              <input className={styles.Logininput} type='text' placeholder='Email' id='username' ref={emailElement} required/>
-      
-              {/* <label htmlFor='password'>Password</label> */}
-              <div className={styles.pswd}>
-              <input className={styles.Logininput} type={show ? 'text' : 'password'} placeholder='Password' id='password' ref={passwordElement} required/>
-            <IconButton
-              aria-label="toggle password visibility"
-              onClick={() => setShow(!show)}
-              >
-                {show? <VisibilityOff /> : <Visibility />}
-            </IconButton>
+           <div className={styles.loginBody}>
+             <div class={styles.center}>
+            <h1>Login Here</h1>
+            <form onSubmit={HandleSubmit}>
+              <div class={styles.inputbox}>
+                <input type="text" required="required" id='username' ref={emailElement} />
+                <span>Email</span>
               </div>
-              
-              <Link to="/password/forgot" className={styles.fp}>Forgot Password?</Link>   
-              <button type='submit' className={styles.Loginbutton}>Login</button>
-              <div className={styles.social}>
-                  <div className={styles.go}>Google</div>
-                  <div className={styles.fb}>Facebook</div>
+              <div class={styles.inputbox}>
+                <input required="required" type={show ? 'text' : 'password'} id='password' ref={passwordElement} />
+                <span>Password</span>
               </div>
-              <Link to="/register" className={styles.link}> don't have an accout? SignUp</Link>
-          </form>
-      </div>
-      </div>
+            <div className={styles.eye}>  <IconButton 
+                 aria-label="toggle password visibility"
+                 onClick={() => setShow(!show)}
+                 >
+                 {show? <VisibilityOff /> : <Visibility />}
+               </IconButton></div>
+              <div class={styles.inputbox}>
+                <input type="submit" value="submit"/> 
+              </div>
+              <Link to="/register" className={styles.loginLink}> don't have an accout? SignUp</Link>
+            </form>
+          </div>
+           </div>
         )}
     </Fragment>
     

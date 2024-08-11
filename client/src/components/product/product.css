@@ -1,19 +1,27 @@
+.p-wrapper{
+  display: flex;
+  flex-direction: column;
+  transform:translateY(85px);
+  overflow-x: hidden;
+}
+
 .productsHeading {
-    margin: 2vmax auto;
-    width: 15vw;
+    margin: 1vmax auto;
+    width: 13vw;
     border-bottom: 1px solid rgba(0, 0, 0, 0.171);
-    padding: 2vmax;
+    padding: 1vmax;
     color: rgba(0, 0, 0, 0.678);
-    font: 500 1.5vmax "Roboto";
+    font: 600 1.5vmax "Roboto";
     text-align: center;
   }
   
   .products {
     display: flex;
     flex-wrap: wrap;
-    padding: 0 5vmax;
+    padding: 0 13vmax;
     justify-content: center;
     min-height: 30vh;
+    transform: translateX(60px);
   }
   .paginationBox{
     display:flex;
@@ -50,6 +58,9 @@
 .page-item:hover {
   background-color: rgb(230, 230, 230);
 }
+.page-item:hover .page-link {
+  color: rgb(0, 0, 0);
+}
 .pageItemActive {
   background-color: tomato;
 }
@@ -65,7 +76,7 @@
 }
 
 .filterBox > fieldset {
-  border: 1px solid rgba(0, 0, 0, 0.329);
+  border: 0px solid rgba(0, 0, 0, 0.329);
 }
 .categoryBox {
   padding: 0%;
@@ -87,7 +98,7 @@
   .filterBox {
     width: 20vmax;
     position: static;
-    margin: auto;
+    margin: 100px auto;
   }
 
   .page-link {
@@ -95,5 +106,15 @@
   }
   .category-link {
     font: 400 1.8vmax "Roboto";
+  }
+  .productsHeading{
+    margin: 10px auto;
+    font: 800 2vmax "Roboto";
+    border-bottom: 1px solid rgba(0, 0, 0, 0.171);
+    width: 12vmax;
+  }
+  .products{
+    transform: translateX(0px);
+    padding: 0 6vmax;
   }
 }

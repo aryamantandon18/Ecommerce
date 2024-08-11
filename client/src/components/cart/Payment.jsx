@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef} from "react";
 import MetaData from "../layouts/MetaData";
 import CheckOutSteps from "./CheckOutSteps";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import "./payment.css";
 // import Shipping from "./Shipping";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { server } from "../../index.js";
 
 const Payment = () => {
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
@@ -45,80 +46,87 @@ const Payment = () => {
 
     try {
 
-      const { data:{razorpayApiKey} } = await axios.get("/razorpayapikey");
+      const { data:{razorpayApiKey} } = await axios.get(`${server}/razorpayapikey`);
       console.log(razorpayApiKey);  
 
       const config = {
         headers: {
           "Content-Type": "application/json",
         },
+        withCredentials:true,
       };
       
       const { data } = await axios.post(
-        "/payment/process",
+        `${server}/payment/process`,
         paymentData,
         config,
       );
       const id = data.myPayment.id;
       console.log(data);
 
-      const options = {
-        key: razorpayApiKey, // Enter the Key ID generated from the Dashboard
-        amount: data.myPayment.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-        currency: "INR",
-        name: "Aryaman",
-       description: "Test Transaction",
-        image: "https://example.com/your_logo",
-        order_id: id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-
-        handler:  function (response){
-          //   axios.post('/payment/verification',{
-          //   paymentId: response.razorpay_payment_id,
-          //   orderId: response.razorpay_order_id,
-          //  })
-          //  .then((verificationResponse) => {
-          //   console.log('Verification Response:', verificationResponse);
-          //   // Handle the verification response
-          //   if (verificationResponse.data.status === 'success') {
-    
-                order.paymentInfo={
-                  id: id,
-                  status: "Succeeded",
-                };
-              
-              console.log("hello1")
-              console.log(order);
-              toast.success('Payment successful!');
-              dispatch(createOrder(order)); //dispatching Action 
-              console.log("hello2")
-              navigate("/success");
-            // } else {
-            //   console.log( "verification DATA -> ", verificationResponse.data);
-              // payBtn.current.disabled = false; 
-            //   toast.error("Payment Unsuccessful");
-            // }
-          // })
-          // .catch((error) => {
-          //   console.error('Error verifying payment:', error);
-          //   toast.error('Error verifying payment. Please try again later.');
-          // });
-        
-          navigate("/success");
-      },
-        prefill: {
-            name: user.name,
-            email:  user.email,
-            contact: shippingInfo.phoneNo,
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => {
+        const options =  {
+          key: razorpayApiKey, // Enter the Key ID generated from the Dashboard
+          amount: data.myPayment.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+          currency: "INR",
+          name: "Aryaman",
+         description: "Test Transaction",
+          image: "https://example.com/your_logo",
+          order_id: id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+  
+          handler:  function (response){
+            //   axios.post('/payment/verification',{
+            //   paymentId: response.razorpay_payment_id,
+            //   orderId: response.razorpay_order_id,
+            //  })
+            //  .then((verificationResponse) => {
+            //   console.log('Verification Response:', verificationResponse);
+            //   // Handle the verification response
+            //   if (verificationResponse.data.status === 'success') {
+      
+                  order.paymentInfo={
+                    id: id,
+                    status: "Succeeded",
+                  };
+                
+                console.log("hello1")
+                console.log(order);
+                toast.success('Payment successful!');
+                dispatch(createOrder(order)); //dispatching Action 
+                console.log("hello2")
+                navigate("/success");
+              // } else {
+              //   console.log( "verification DATA -> ", verificationResponse.data);
+                // payBtn.current.disabled = false; 
+              //   toast.error("Payment Unsuccessful");
+              // }
+            // })
+            // .catch((error) => {
+            //   console.error('Error verifying payment:', error);
+            //   toast.error('Error verifying payment. Please try again later.');
+            // });
+          
+            navigate("/success");
         },
-      notes: {
-            "address": "Razorpay Corporate Office"
-        },
-        theme: {
-            "color": "#3399cc"
-        }
+          prefill: {
+              name: user.name,
+              email:  user.email,
+              contact: shippingInfo.phoneNo,
+          },
+        notes: {
+              "address": "Razorpay Corporate Office"
+          },
+          theme: {
+              "color": "#3399cc"
+          }
+      };
+        const razor = new window.Razorpay(options);
+        razor.open();
     };
-    const razor = new window.Razorpay(options);
-    razor.open();
+  
+    document.body.appendChild(script);
 
  
     } catch (error) {
@@ -140,24 +148,11 @@ const Payment = () => {
       <CheckOutSteps activeStep={2} />
       <div className="paymentContainer">
         <form className="paymentForm" onSubmit={submitHandler}>
-          {/* <Typography>Card Info</Typography> */}
-          {/* <div>
-            <CreditCardIcon />
-            <CardNumberElement className="paymentInput" />
-          </div>
-          <div>
-            <EventIcon />
-            <CardExpiryElement className="paymentInput" />
-          </div>
-          <div>
-            <VpnKeyIcon />
-            <CardCvcElement className="paymentInput" />
-          </div> */}
           <input
             type="submit"
             value={`Pay - ₹${orderInfo && orderInfo.totalPrice}`}
             ref={payBtn}
-            className="paymentFormBtn"
+            className="paymentFormBtn mt-20 bg-[#1F74BA]"
           />
         </form>
       </div>
@@ -201,3 +196,17 @@ export default Payment;
   //         toast.error("There's some issue while processing payment");
   //       }
   //     }
+
+        {/* <Typography>Card Info</Typography> */}
+          {/* <div>
+            <CreditCardIcon />
+            <CardNumberElement className="paymentInput" />
+          </div>
+          <div>
+            <EventIcon />
+            <CardExpiryElement className="paymentInput" />
+          </div>
+          <div>
+            <VpnKeyIcon />
+            <CardCvcElement className="paymentInput" />
+          </div> */}

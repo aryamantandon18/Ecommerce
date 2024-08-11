@@ -15,9 +15,9 @@
         height: 520px;
         position: absolute;
         /* background-color: #080710; */
-        transform: translate(-50%,-50%);
         left: 50%;
         top: 50%;
+        transform: translate(-50%,-50%);
     }
     .background>.shape{
         height:200px;
@@ -30,8 +30,8 @@
             #1845ad,
             #23a2f6
         );
-        left: -80px;
-        top: -30px;
+        left: -114px;
+        top: -50px;
     }
     .shape:last-child{
         background: linear-gradient(
@@ -39,12 +39,12 @@
             #ff512f,
             #f09819
         );
-        right: -70px;
-        bottom: -87px;
+        right: -100px;
+        bottom: -100px;
     }
     .loginForm {
     height:540px;
-    width:400px;
+    width:24vw;
     background-color: #080710da;
     position:absolute;
     transform:translate(-50%,-45%);
@@ -64,6 +64,7 @@
         outline: none;
     }
     .loginForm>h3{
+        width: 100%;
         font-size: 32px;
         font-weight: 500;
         line-height: 42px;
@@ -89,10 +90,10 @@
     ::placeholder{
         color: #e5e5e5;
     }
-    .Loginbutton{
-        margin-top: 50px;
+    .Signupbutton{
+        background-color: #fffffff7;
+        margin-top: 37px;
         width: 100%;
-        background-color: #ffffff;
         color: #080710;
         padding: 15px 0;
         font-size: 18px;
@@ -143,7 +144,7 @@
     }
     .pswd svg{
         position: absolute;
-        transform: translate(-1.5vmax,-1.9vmax);   
+        transform: translate(-1.5vmax,-1.3vmax);   
     }
     
     .avtar{
@@ -176,4 +177,73 @@
     }
     .avtar>input::file-selector-button:hover{
         background-color: rgba(255,255,255,0.2); 
+    }
+    .radioBtn{
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        margin-top: 40px;
+        font-family: 'Poppins',sans-serif;
+    }
+    .radioBtn input[type="radio"]{
+        display: none;
+    }
+    .radio{
+        position: relative;
+        padding-left: 30px;
+        margin-right: 40px;
+        display: flex;
+        align-items: center;
+    }
+    .radio span{
+        height: 20px;
+        width:20px;
+        border: 3px solid #00aeef;
+        border-radius: 50%;
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+    .radio span::after{
+        content: "";
+        height:8px;
+        width: 8px;
+        background:#00aeef;
+        display: block;
+        position:absolute;
+        left: 50%;
+        top:50%;
+        border-radius:50%;
+        transform: translate(-50%,-50%)scale(0);
+        transition: 300ms ease-in-out 0s;
+    }
+    .radio input[type="radio"]:checked ~ span::after{
+        transform: translate(-50%,-50%)scale(1);
+    }
+
+   
+
+    @media  screen and (max-width:600px) {
+        .head{
+          overflow: hidden;
+        }
+        .loginForm{
+            scale: 0.7;
+             top:35%;
+            left:35%; 
+            width: 100%;
+        }
+        .background>.shape{
+            display: none;
+            height:100px;
+            width:100px;
+            position:absolute;
+            border-radius: 50%;
+        }
+        .pswd svg{
+            position: absolute;
+            transform: translate(-3vmax,-2.5vmax);   
+        }
+
     }

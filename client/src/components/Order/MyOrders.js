@@ -9,10 +9,12 @@ import LaunchIcon from "@mui/icons-material/Launch";
 import './myOrders.css';
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+// import { CLEAR_ERRORS } from "../../constants/orderConstant";
 
 const MyOrders = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
+  console.log(user);
   const { loading, error, orders } = useSelector((state) => state.myOrders);
 
   const columns = [
@@ -72,21 +74,22 @@ const MyOrders = () => {
     });
 
   useEffect(() => {
-    if (error) {
-      toast.error(error);
-      dispatch(clearErrors());
-    }
+    // if(error){
+    //   toast.error(error);
+    //   dispatch(clearErrors())
+    // }
+    
     dispatch(myOrders());
   },[dispatch,error]);
 
-  return (
+  return (  
     <Fragment>
-      
+      {console.log(loading)}
       {loading ? (
         <Loader />
       ) : (
         <Fragment>
-          <MetaData title={`${user.name} - Orders`} />
+          {user && <MetaData title={`${user.name} - Orders`} />}
           <div className="myOrdersPage">
             <DataGrid
               rows={rows}
@@ -98,7 +101,7 @@ const MyOrders = () => {
             />
             
             <Typography id="myOrdersHeading">
-              {user.name}'s Orders
+              { user && user.name}'s Orders
             </Typography>
           </div>
         </Fragment>

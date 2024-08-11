@@ -1,5 +1,6 @@
 .cartPage{
     padding:5vmax;
+    padding-top:11vh ;
 }
 .cHeading{
     display:block;
@@ -129,3 +130,65 @@
     font: 400 1vmax "Roboto";
     text-decoration: none;
   }
+
+  /* @media screen and (max-width:600px) {
+    .checkOutBtn>button{
+      width:100px;
+      font-size: 10px;
+    }
+  } */
+  @media screen and (max-width: 600px) {
+    .cartPage {
+      padding: 0;
+      padding-top: 11vh;
+      min-height: 60vh;
+    }
+  
+    .cartHeader {
+      width: 100%;
+      font: 300 1.7vmax "Roboto";
+      grid-template-columns: 3fr 1fr 1fr;
+    }
+  
+    .cartContainer {
+      width: 100%;
+      grid-template-columns: 4fr 1fr 1fr;
+    }
+  
+    .cartInput {
+      height: 20vmax;
+    }
+  
+    .cartInput > button {
+      padding: 1.5vmax;
+    }
+  
+    .cartInput > input {
+      width: 2vmax;
+      padding: 1.5vmax;
+      font: 400 1.8vmax "Roboto";
+    }
+  
+    .cartTotal {
+      padding: 1.5vmax;
+      height: 20vmax;
+      font: 300 2vmax "Roboto";
+    }
+  
+    .grossTotal {
+      display: grid;
+      grid-template-columns: 0fr 2fr;
+    }
+  
+    .grossTotalBox {
+      padding: 2vmax;
+      font: 300 2vmax "Roboto";
+    }
+  
+    .checkOutBtn > button {
+      padding: 2vmax 4vmax;
+      width: 100%;
+      font: 300 2vmax "Roboto";
+    }
+  }
+  

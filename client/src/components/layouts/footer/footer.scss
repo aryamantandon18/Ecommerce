@@ -65,3 +65,8 @@ align-items: center;
         color:$clr;
     }
 }
+@media screen and (max-width:600px){
+ .midFooter> h1{
+    font-size: small;
+ }
+}

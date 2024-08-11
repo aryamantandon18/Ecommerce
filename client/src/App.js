@@ -1,10 +1,9 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import "./styles/App.scss";
+import "./App.css";
 import Header from "./components/layouts/header/Header.jsx";
-import { useEffect} from "react";
+import React,{ useEffect,lazy} from "react";
 import webFont from "webfontloader";
 import Footer from "./components/layouts/footer/Footer.jsx";
-import Home from "./components/Home/Home";
 import { Toaster } from "react-hot-toast";
 import ProductDetails from "./components/product/productDetails.js";
 import Products from "./components/product/Products.jsx";
@@ -27,13 +26,19 @@ import { useSelector } from "react-redux";
 // import { Elements } from "@stripe/react-stripe-js";
 // import { loadStripe } from "@stripe/stripe-js";
 import OrderSuccess from "./components/cart/OrderSuccess.jsx";
-import ElementLayout from "./ElementLayout.js";
+// import ElementLayout from "./ElementLayout.js";
 import MyOrders from "./components/Order/MyOrders.js";
 import OrderDetails from "./components/Order/OrderDetails.js";
 import Dashboard from './components/Admin/Dashboard.jsx'
 import NewProduct from "./components/Admin/NewProduct.jsx";
 import ProductList from "./components/Admin/ProductList.jsx";
 import UserOptions from "./components/layouts/header/UserOptions.jsx";
+import OrderList from "./components/Admin/OrderList.jsx";
+import UpdateProduct from "./components/Admin/UpdateProduct.jsx";
+import AllUsers from "./components/Admin/AllUsers.jsx";
+import Home from "./components/Home/Home.jsx";
+
+// const Home = lazy(()=>import('./components/Home/Home.jsx'));
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -55,7 +60,7 @@ function App() {
      { console.log("Is use Loggeding checking authentication",isAuthenticated)}
       {isAuthenticated && <UserOptions user={user} />}
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home/>} />
         <Route path="/product/:id" element={<ProductDetails />} />
         {/* <Route path="/sad" element={<Loader/>} /> */}
         <Route path="/products" element={<Products />} />
@@ -82,7 +87,7 @@ function App() {
         <Route path="/process/payment" element={<Payment />} />
         
         <Route path="/success" element={<OrderSuccess />} />
-        <Route path="/orders" element={<MyOrders />} />
+        <Route path="/orders" element={<MyOrders/>} />
 
         <Route path="/order/confirm" element={<ConfirmOrder />} />
         <Route path="/order/:id"  element={<OrderDetails/>}/>
@@ -91,7 +96,9 @@ function App() {
 
         <Route path="/admin/products" element={<ProductList/>}/>
         <Route path="/admin/product" element={<NewProduct/>}/>
-
+        <Route path="/admin/product/:id" element={<UpdateProduct/>}/>
+        <Route path="/admin/orders" element={<OrderList/>}/>
+        <Route path="/admin/users" element={<AllUsers/>}/>
          </Routes>
 
       <Footer />

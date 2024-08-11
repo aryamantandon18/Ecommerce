@@ -4,13 +4,14 @@ import Loader from '../layouts/loader/Loader'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProduct } from '../../actions/productActions'
 import { ProductCard } from '../Home/ProductCard'
-import { useNavigate} from 'react-router-dom'
+// import { useNavigate} from 'react-router-dom'
 import Pagination from 'react-js-pagination'
 import MetaData from '../layouts/MetaData'
 import {toast} from'react-hot-toast'
 import { Button, Slider } from '@mui/material'
 import {Typography} from '@mui/material'
-import './search.css'
+// import { Filter } from './Filter.jsx'
+
 
 const categories = [
   "Laptop",
@@ -30,23 +31,14 @@ const Products = () => {
   const [rating, setRating] = useState(0);
   const [category, setCategory] = useState("");
 
-  const [finalKeyword,setFinalKeyword] = useState();
+ 
   
   const setCurrentPageNo = (e)=>{
     setCurrentPage(e);
   }
 // console.log(currentPage);
-const navigate = useNavigate();
-const [keyword,setKeyword] = useState(''); 
-    const searchHandler= (e)=>{
-        e.preventDefault();
-        if(keyword.trim()){
-        navigate(`/products/${keyword}`)
-        }
-        else{
-            navigate(`/products`);
-        }
-    }
+
+
   const dispatch = useDispatch();
   // const {keyword} = useParams();
   const {products,loading,error,productsCount,resultPerPage} = useSelector((state)=>state.products);
@@ -54,6 +46,7 @@ const [keyword,setKeyword] = useState('');
   const priceHandler=(e,newPrice)=>{
 setPrice(newPrice);
   }
+  const [finalKeyword,setFinalKeyword] = useState();
 
   useEffect(()=>{
     if(error) {return toast.error(error);}
@@ -67,12 +60,9 @@ setPrice(newPrice);
        <MetaData title="PRODUCTS -- ECOMMERCE" />
       {loading?<Loader/>:(
         <Fragment>
-          <div>
-          <form className='searchBox' onSubmit={searchHandler}>
-         <input type='text' placeholder='search' onChange={(e)=> setKeyword(e.target.value)} value={keyword}/>
-        <Button type='submit' value="Search" onClick={(e)=> setFinalKeyword(keyword)}>Search</Button>
-    </form>
-          </div>
+       <div className='p-wrapper'>
+   
+        
         <h2 className='productsHeading'>Products</h2>
         <div className='products'>
         {
@@ -81,9 +71,11 @@ setPrice(newPrice);
           ))
         }
         </div>
+        </div>
+       
         
-        <div className="filterBox">
-          <Typography>Price</Typography>           {/* includes some inbuild css  */}
+         <div className="filterBox">
+          <Typography>Price</Typography>           
          <Slider
          value={price}
          onChange={priceHandler}
@@ -119,6 +111,8 @@ setPrice(newPrice);
               />
             </fieldset>
         </div>
+
+     
         {
           resultPerPage < productsCount && (
             <div className="paginationBox">

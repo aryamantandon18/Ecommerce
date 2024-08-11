@@ -1,12 +1,11 @@
 import React, { Fragment, useEffect, useState  } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import  './UpdateProfile.css'
 import { useSelector,useDispatch } from 'react-redux';
 import { clearErrors, loadUser,updateProfile} from '../../actions/userActions';
-import { CLEAR_ERRORS, UPDATE_PROFILE_RESET } from '../../constants/userConstant';
+import {UPDATE_PROFILE_RESET } from '../../constants/userConstant';
 import toast from 'react-hot-toast';
 import Loader from '../layouts/loader/Loader';
-import styles from './Login.module.css'
 
 const UpdateProfile = () => {
     const dispatch = useDispatch();
@@ -50,7 +49,9 @@ const UpdateProfile = () => {
         if(user){
             setName(user.name);
             setEmail(user.email);
-            setAvtarPreview(user.avatar.url)
+            if (user.avatar && user.avatar.url) {
+                setAvtarPreview(user.avatar.url);
+            }
         }
         if(error){
             toast.error(error.message);
@@ -67,28 +68,28 @@ const UpdateProfile = () => {
    <Fragment>
     {loading?<Loader/>:(
          <Fragment>
-         <div className={styles.componentWrapper}>
-         <div className={styles.head} >
+         <div className="updatewrapper">
+         <div className="updateHead">
      
-             <div className={styles.background}>
-                 <div class={styles.shape}></div>
-                 <div class={styles.shape}></div>
+             <div className="updateBg">
+                 <div class="updateShape"></div>
+                 <div class="updateShape"></div>
              </div>   
              
-         <form onSubmit={HandleSubmit} className={styles.loginForm} encType='multipart/form-data' style={{height:"440px"}}>
+         <form onSubmit={HandleSubmit} className="updateForm" encType='multipart/form-data' style={{height:"440px"}}>
              <h3 style={{lineHeight:"0px"}}>Update Profile</h3>
              {/* <label htmlFor='username'>Name</label> */}
-             <input className={styles.Logininput} type='text' placeholder='Username' id='username' name='name' required value={name} onChange={(e)=>setName(e.target.value)}/>
+             <input className="updateInput" type='text' placeholder='Username' id='username' name='name' required value={name} onChange={(e)=>setName(e.target.value)}/>
      
              {/* <label htmlFor='username'>Email</label> */}
-             <input className={styles.Logininput} type='text' placeholder='Email' id='username' name='email' required value={email} onChange={(e)=>setEmail(e.target.value)}/>
+             <input className="updateInput" type='text' placeholder='Email' id='username' name='email' required value={email} onChange={(e)=>setEmail(e.target.value)}/>
      
-             <div className={styles.avatar}>
-              <img className={styles.img} src={avtarPreview} alt='AvtarImage'/>   
+             <div className="updateAvatar">
+              <img className="updateImage"src={avtarPreview} alt='AvtarImage'/>   
              <input type='file' name='avatar' accept='image/*' id='profile' onChange={updateUserHandler}/>
              </div>
      
-             <button type='submit' className={styles.Loginbutton}>Update</button>
+             <button type='submit' className="updateBtn">Update</button>
            
          </form>
      </div>

@@ -11,16 +11,16 @@ export const register = asyncHandler(async(req,res,next)=>{
 const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
   folder:"avatars",
   width:150,
-  crop:"scale,"
+  crop:"scale"
 })
 
-   const {name,email,password} = req.body;
+   const {name,email,password,role} = req.body;
   let user = await Users.findOne({email})
 
   if(user){
     return res.status(404).json({
-      message:"User already exist",
       success: false,
+      message:"User already exist",
     })
   }
   // const hashedPassword = await bcrypt.hash(password,10);
@@ -28,7 +28,7 @@ const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
   avatar:{
     public_id:myCloud.public_id,
     url:myCloud.secure_url,
-  }
+  },role
   });
 
  sendCookie(res,user,"Registered Successfully")
@@ -39,7 +39,7 @@ const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
 export const Login = async(req,res,next)=>{
  try {
   const {email,password} = req.body;
-  console.log("Hello")
+  // console.log("Hello")
   if (!email || !password) {
     return next(new ErrorHandler("Please Enter Email & Password",400));
   }
@@ -69,9 +69,9 @@ export const Login = async(req,res,next)=>{
  }
 };
 export const getMyProfile = async(req,res,next)=>{
-  console.log("Before user")
+  // console.log("Before user")
   const user = await Users.findById(req.user._id);
-console.log(user);
+// console.log(user);
    res.status(201).json({
         success : true,
         user,
@@ -80,13 +80,13 @@ console.log(user);
 
 export const logout = (req,res) => {
     res.status(200).cookie("Token","",{
-      expires: new Date(Date.now()),
+      httpOnly: true,
+      maxAge: 0,
       sameSite: process.env.node_env === "Develpoment" ? "lax" : "none",
       secure: process.env.node_env === "Develpoment" ? false : true,          
  })
     .json({
       success:true,
-      user:req.user,
       message:"Logged out successfully",
     })
 }
@@ -101,7 +101,7 @@ export const forgotPassword = asyncHandler(async(req,res,next)=>{
  const resetToken = user.getResetPasswordToken();
  await user.save({validateBeforeSave:false})
 
- const resetPasswordUrl = `${process.env.FRONTEND_URL}/password/reset/${resetToken}`;
+ const resetPasswordUrl = `${process.env.frontend_uri}/password/reset/${resetToken}`;
  const message = `Your reset Password token is \n\n${resetPasswordUrl} \n\nIf you have not requested this email , then please ignore this !`;
  try {
   
@@ -232,24 +232,26 @@ export const resetPassword = asyncHandler(async(req,res,next)=>{
   })
      
   //admin
-  export const deleteUser = asyncHandler(async(req,res,next)=>{
-  await Users.findOneAndDelete(req.params.id,(err,deletedDoc)=>{
-    if(deletedDoc == null)   return next(new ErrorHandler(`User not exist with id -> ${req.params.id}`))
-    if(err){
+  export const deleteUser = asyncHandler(async (req, res, next) => {
+    try {
+      const deletedDoc = await Users.findOneAndDelete({ _id: req.params.id });
+      if (!deletedDoc) {
+        return next(new ErrorHandler(`User not exist with id -> ${req.params.id}`));
+      }
+      res.status(200).json({
+        success: true,
+        message: 'User deleted successfully',
+        data: deletedDoc,
+      });
+    } catch (err) {
       next(err);
     }
-  })
-  
-res.json(200).json({
-      success:true,
-      message:"User deleted successfully"
-    })
-  })
+  });
       
 
  //get all users (admin)
   export const getAllUsers = asyncHandler(async(req,res,next)=>{
-    const users = Users.find();
+    const users = await Users.find();
     res.status(200).json({
       success:true,
       users,
@@ -258,7 +260,7 @@ res.json(200).json({
 
   //get single user (admin)
   export const getUserById = asyncHandler(async(req,res)=>{
-    const user = Users.findById(req.params.id);
+    const user =await Users.findById(req.params.id);
     if(!user){
     return next(new ErrorHandler(`No user exist with id -> ${req.params.id}`)); 
     }

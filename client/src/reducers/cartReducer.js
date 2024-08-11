@@ -13,8 +13,6 @@ import {
         const item = action.payload;
   
         const isItemExist = state.cartItems.find(          //The find function is used to check if there is an item in the cartItems array that has the same product property as the newly added item. If such an item exists, isItemExist will be a reference to that item; otherwise, it will be undefined.
-
-
           (i) => i.product === item.product
         );
   

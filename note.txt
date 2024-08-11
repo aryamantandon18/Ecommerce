@@ -23,3 +23,46 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 
 npm i chart.js react-chartjs-2
+
+
+______________________________________________________________________________________________________________________
+It is a complete functional Ecommerce Website (like flipkart) Which has some featues like:-
+1. Complete Authentication (Login,Registration,Logout)
+2. We have 2 roles User or Admin. some routes are specific for Admin Only
+3. A user can write a review of the product.
+4. User can order & Buy a Product from the Cart using payment gateway of RazorPay.
+5. Admin can create the product to sell, he can see the orders.
+Tech Stack ;- MongoDB, Reactjs, Nodejs, Express, React-Redux, material-UI
+Libraries used :- react-hot-toast, react-icons, react-router-dom, react-js-pagination, react-redux, redux-thunk, axios, country-state-city
+Nodejs libraries :- bcrypt, cloudinary, cookie-parser, cors, dotenv, jsonwebtoken, nodemailer, razorpay, validator
+_________________________________________________________________________
+🚀 E-commerce Platform Development 🌐
+
+🔧 Tech Stack: MongoDB, ReactJS, Node.js, Express, React-Redux, Material-UI
+
+📚 Libraries: Redux-Thunk, Axios, RazorPay, Cloudinary, and more
+
+✨ Highlights:
+
+Authentication: Seamlessly managed user registration, login, and logout processes.
+Roles: Implemented two roles - User and Admin, with specific admin-only routes.
+User Reviews: Enabled users to share insights through product reviews.
+Ordering: Streamlined the purchase process with RazorPay integration.
+Admin Control: Empowered admins to create products and monitor orders.
+🌍 Project Link: GitHub Repository
+
+Excited to discuss the development journey and explore potential collaborations! Let's connect. 🚀🔗 #Ecommerce #ReactJS #NodeJS #WebDevelopment #TechInnovation
+
+
+ const handleAddTier = () => {
+    // Add a new tier with default values
+    //console.log("...tieredpricingCat", [...tieredpricingCat]);
+    setTieredpricingCat([
+      ...tieredpricingCat,
+      { min: 0, max: 0, discount: 0, isPercent: true, price: 0, finalprice: 0 },
+    ]);
+    validation.setFieldValue("tieredPricing", tieredpricingCat);
+  };
+
+
+

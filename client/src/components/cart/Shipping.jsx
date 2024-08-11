@@ -14,7 +14,7 @@ import MetaData from '../layouts/MetaData';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import CheckOutSteps from './CheckOutSteps';
-import TextField from '@mui/material/TextField';
+// import TextField from '@mui/material/TextField';
 
 const Shipping = () => {
     const {shippingInfo} = useSelector((state)=>state.cart);
@@ -97,7 +97,7 @@ const Shipping = () => {
                 </select>
               </div>
             )}
-         <button type='submit' className={styles.shippingBtn}>Update</button>
+         <button type='submit' className={`${styles.shippingBtn} bg-[#1F74BA] `}>Update</button>
           
        </form>
        </div>

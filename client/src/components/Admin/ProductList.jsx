@@ -22,7 +22,7 @@ const {error:deleteError,isDeleted} = useSelector((state)=> state.deleteProduct)
 
 useEffect(()=>{
     if(error){
-        toast.error(error.message);
+        toast.error(error);
         dispatch(clearErrors());
     }
     if(deleteError){

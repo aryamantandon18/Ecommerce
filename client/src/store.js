@@ -1,6 +1,7 @@
-import { createStore, combineReducers, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
-import { composeWithDevTools } from "redux-devtools-extension";
+// store.js
+import { createStore, combineReducers, applyMiddleware, compose } from "redux";
+import {thunk} from "redux-thunk";
+import promiseMiddleware from 'redux-promise';
 import {
   newProductReducer,
   productDetailsReducer,
@@ -13,12 +14,15 @@ import {
 } from "./reducers/userReducer";
 import { cartReducer } from "./reducers/cartReducer";
 import {
+  allOrdersReducer,
   myOrdersReducer,
   newOrderReducer,
   orderDetailsReducer,
+  orderReducer,
 } from "./reducers/orderReducer";
 import { deleteProduct } from "./actions/productActions";
-//define your reducer
+
+// Define your reducer
 const reducer = combineReducers({
   products: productReducer,
   productDetails: productDetailsReducer,
@@ -29,9 +33,11 @@ const reducer = combineReducers({
   newOrder: newOrderReducer,
   myOrders: myOrdersReducer,
   orderDetails: orderDetailsReducer,
-  newReview:newOrderReducer,
-  newProduct:newProductReducer,
-  deleteProduct:deleteProduct,
+  newReview: newOrderReducer,
+  newProduct: newProductReducer,
+  deleteProduct: deleteProduct,
+  allOrders:allOrdersReducer,
+  orderReducer:orderReducer,
 });
 
 let initialState = {
@@ -39,22 +45,18 @@ let initialState = {
     cartItems: localStorage.getItem("cartItems")
       ? JSON.parse(localStorage.getItem("cartItems"))
       : [],
-
     shippingInfo: localStorage.getItem("shippingInfo")
       ? JSON.parse(localStorage.getItem("shippingInfo"))
       : {},
   },
 };
-const middleware = [thunk];
+ 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;    // how redux store and redux devtools extension are composed together for enhancing redux store funcitonality.
 
-// Create the Redux store with the DevTools extension
 const store = createStore(
   reducer,
   initialState,
-  composeWithDevTools({
-    trace: true, // This enables tracing in Redux DevTools
-  })
-  (applyMiddleware(...middleware))
+  composeEnhancers(applyMiddleware(thunk, promiseMiddleware))         //   applyMiddleware(thunk)
 );
 
 export default store;

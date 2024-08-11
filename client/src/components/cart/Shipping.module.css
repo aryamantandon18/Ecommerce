@@ -1,6 +1,7 @@
 .shippingContainer{
+    transform: translateY(10vh);
     width:100%;
-    border:2px solid black;
+    /* border:2px solid black; */
     height:77.8vh;
     display: flex;
     justify-content: center;
@@ -63,7 +64,6 @@
   
   .shippingBtn {
     border: none;
-    background-color: #1F74BA;
     color: white;
     font: 300 1vmax "Roboto";
     width: 100%;
@@ -90,7 +90,7 @@
     }
   
     .shippingForm {
-      padding: 11vw;
+      padding: 7vw;
     }
   
     .shippingForm > div > input,

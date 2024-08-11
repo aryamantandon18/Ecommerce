@@ -1,10 +1,10 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { TreeItem, TreeView } from '@material-ui/lab';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import React, { useEffect } from 'react'
+import { Link ,useLocation, useNavigate} from 'react-router-dom'
+// import { TreeItem, TreeView } from '@material-ui/lab';
+// import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import ImportExportIcon from '@mui/icons-material/ImportExport';
-import PostAddIcon from '@mui/icons-material/PostAdd';
+// import ImportExportIcon from '@mui/icons-material/ImportExport';
+// import PostAddIcon from '@mui/icons-material/PostAdd';
 import AddIcon from '@mui/icons-material/Add';
 import logo from '../../images/logo.png'
 import ListAltIcon from '@mui/icons-material/ListAlt'
@@ -14,6 +14,15 @@ import './SideBar.css'
 
 
 const SideBar = () => {
+    const location = useLocation();
+    useEffect(() => {
+      if (window.innerWidth <= 768) {
+        setTimeout(() => {
+          window.scrollTo(0, document.body.scrollHeight);
+        }, 100);
+      }
+    }, [location]);
+
   return (
     <div className="sidebar">
       <Link to="/">
@@ -24,21 +33,11 @@ const SideBar = () => {
           <DashboardIcon /> Dashboard
         </p>
       </Link>
-      <Link>
-        <TreeView
-          defaultCollapseIcon={<ExpandMoreIcon />}
-          defaultExpandIcon={<ImportExportIcon />}
-        >
-          <TreeItem nodeId="1" label="Products">
-            <Link to="/admin/products">
-              <TreeItem nodeId="2" label="All" icon={<PostAddIcon />} />
-            </Link>
-
-            <Link to="/admin/product">
-              <TreeItem nodeId="3" label="Create" icon={<AddIcon />} />
-            </Link>
-          </TreeItem>
-        </TreeView>
+      <Link to="/admin/product">
+      <p>
+          <AddIcon/>
+          Create Product
+        </p>
       </Link>
       <Link to="/admin/orders">
         <p>
@@ -62,3 +61,18 @@ const SideBar = () => {
 }
 
 export default SideBar
+
+ {/* <TreeView
+          defaultCollapseIcon={<ExpandMoreIcon />}
+          defaultExpandIcon={<ImportExportIcon />}
+        >
+          <TreeItem nodeId="1" label="Products">
+            <Link to="/admin/products">
+              <TreeItem nodeId="2" label="All" icon={<PostAddIcon />} />
+            </Link>
+
+            <Link to="/admin/product">
+              <TreeItem nodeId="3" label="Create" icon={<AddIcon />} />
+            </Link>
+          </TreeItem>
+        </TreeView> */}

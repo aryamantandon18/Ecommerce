@@ -23,7 +23,7 @@ import { Button } from "@mui/material";
 
 const NewProduct = () => {
   const dispatch = useDispatch();
-  const { error, success, product,loading } = useSelector((state) => state.newProduct);
+  const { error, success,loading } = useSelector((state) => state.newProduct);
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");

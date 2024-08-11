@@ -5,12 +5,13 @@
 .myOrdersPage {
   width: 100vw;
   max-width: 100%;
-  padding: 0 7vmax;
+  padding: 0 5vmax;
   box-sizing: border-box;
   background-color: rgb(235, 235, 235);
-  position: fixed;
+  /* position: fixed;
   top: 0;
-  left: 0;
+  left: 0; */
+  padding-top: 11vh;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -62,6 +63,7 @@
 @media screen and (max-width: 600px) {
   .myOrdersPage {
     padding: 0;
+    padding-top: 11vh;
     height: 93vh;
   }
 

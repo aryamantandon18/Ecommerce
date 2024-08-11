@@ -12,11 +12,12 @@ import { CLEAR_ERRORS } from '../../constants/productConstants';
 
 const Register = () => {
     const[show,setShow] = useState(false);
+    
     const[avtarPreview,setAvtarPreview]=useState('/Profile.png');
     const [avtar,setAvtar] = useState('/Profile.png');
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    
     const {error,loading,isAuthenticated} = useSelector(state=>state.user);
     const [user,setUser]=useState({
         name:"",
@@ -24,6 +25,7 @@ const Register = () => {
         password:"",
     }); 
     const {name,email,password} = user;
+    const[role,setRole] = useState('user');
 
     const HandleSubmit=(e)=>{
         e.preventDefault();
@@ -31,6 +33,7 @@ const Register = () => {
         myForm.set("name",name);
         myForm.set("email",email);
         myForm.set("password",password);
+        myForm.set("role",role);
         myForm.set("avatar",avtar);
         dispatch(register(myForm));
         
@@ -54,7 +57,8 @@ const Register = () => {
 
     useEffect(()=>{
         if(error){
-        toast.error(error);
+
+        // toast.error(error);
          dispatch({type:CLEAR_ERRORS});
          return;
         }   
@@ -97,12 +101,18 @@ const Register = () => {
          <img className={styles.img} src={avtarPreview} alt='AvtarImage'/>   
         <input type='file' name='avtar' accept='image/*' id='profile' onChange={registerUserHandler}/>
         </div>
+       <div className={styles.radioBtn}>
+       <label className={styles.radio}><input type='radio' value="user" checked={role === 'user'} name="role" 
+       onChange={(e)=>setRole(e.target.value)}/>User <span></span> </label> 
+       <label className={styles.radio}><input type='radio' value="Admin" checked={role === 'Admin'} name="role" 
+        onChange={(e)=>setRole(e.target.value)}/>Admin <span></span> </label> 
+       </div>
 
-        <button type='submit' className={styles.Loginbutton}>Sign Up</button>
-        <div className={styles.social}>
+        <button type='submit' className={styles.Signupbutton} style={{backgroundColor:"white"}}>Sign Up</button>
+        {/* <div className={styles.social}>
             <div className={styles.go}>Google</div>
             <div className={styles.fb}>Facebook</div>
-        </div>
+        </div> */}
     </form>
 </div>
 </div>

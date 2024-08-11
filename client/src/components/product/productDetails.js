@@ -5,7 +5,7 @@ import {useSelector, useDispatch } from 'react-redux';
 import { getProductDetails, newReview } from '../../actions/productActions'
 import Loader from '../layouts/loader/Loader';
 import toast from 'react-hot-toast';
-import ReactStars from 'react-stars'
+// import ReactStars from 'react-stars'
 import './productDetails.js'
 import './productDetails.css'
 import { Carousel } from 'react-responsive-carousel';
@@ -16,6 +16,9 @@ import { clearErrors } from '../../actions/userActions.js';
 import { Dialog,DialogTitle,DialogContent,DialogActions,Button } from '@mui/material';
 import { Rating } from '@mui/material';
 import { NEW_REVIEW_RESET } from '../../constants/productConstants.js';
+import ProductPopup from './ProductPopup.jsx'
+import CustomImageMagnifier from './customImageMagnifier.jsx'
+import { IoPricetagOutline } from "react-icons/io5";
 
 const ProductDetails = () => {
     const {id} = useParams();
@@ -26,6 +29,8 @@ const ProductDetails = () => {
     const [open, setOpen] = useState(false);
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
+    const [productImage,setProductImage] = useState("");
+    const [popup,setPopup] = useState(false);
     const increaseQuantity = () => {
         if (product.stock <= quantity) return;
     
@@ -43,11 +48,13 @@ const ProductDetails = () => {
       const SubmitReviewToggle=()=>{
         setOpen(!open);
       }
-      const reviewSubmitHandler=()=>{
+      const reviewSubmitHandler=(e)=>{
+        e.preventDefault();
         const myForm = new FormData();
 
         myForm.set("rating",rating);
         myForm.set("comment",comment);
+        // console.log(id);
         myForm.set("productId",id);
 
         dispatch(newReview(myForm));
@@ -73,8 +80,8 @@ const ProductDetails = () => {
         dispatch({type:NEW_REVIEW_RESET});
       }
 
-        dispatch(getProductDetails(id));           //like in backend we use req.params.id to access the product is 
-    },[dispatch,id,error,success,reviewError,product])
+                  //like in backend we use req.params.id to access the product is 
+    },[dispatch,error,success,reviewError,product])
 
     const options={
       size: "large",
@@ -83,26 +90,61 @@ const ProductDetails = () => {
     precision: 0.5,
     }
 
+    useEffect(()=>{
+      dispatch(getProductDetails(id)); 
+    },[id])
+    useEffect(()=>{
+      if(product?.images) setProductImage(product?.images[0]);
+    },[product])
   return ( 
 <Fragment>
-   
     {loading?(<Loader/>):error?(toast.error(error.message))
     :product?(
   <Fragment>       
    <div className='ProductDetails'>
     <div>
-    <Carousel showStatus={false} showArrows={true} infiniteLoop={false}   showThumbs={true}>
-        {
-            product.images && 
-            product.images.map((item,i)=>(
-                <img className='CarouselImage' style={{position:'relative'}}
-                key={item.url}
-                src={item.url}
-                alt={`${i} slide`}
-                />
-            ))
-        }
-    </Carousel>   
+      <Carousel showStatus={false} showArrows={true} infiniteLoop={false}   showThumbs={true} className='lg:hidden'>
+          {
+              product.images && 
+              product.images.map((item,i)=>(
+                  <img className='CarouselImage' style={{position:'relative'}}
+                  key={item.url}
+                  src={item.url}
+                  alt={`${i} slide`}
+                  />
+              ))
+          }
+      </Carousel>  
+    {
+      productImage?.url ?(
+        <div className='flex'> 
+        <div className="lg:flex flex-col gap-4 mr-4 mt-0.5 hidden">
+        {product && product.images.map((imageObj,index)=>(
+           <img key={index} src={imageObj.url} className="w-[60px] h-[60px] border-[0.7px] border-gray-700 rounded-lg hover:shadow-image focus:shadow-image active:shadow-image" 
+           onClick={()=> setProductImage(imageObj)}
+           />
+        ))}
+        </div>
+        <div className="hidden lg:flex flex-col gap-2.5 w-[400px]">
+        <div onClick={() => setPopup(true)}>
+          <div className='flex'>
+            <CustomImageMagnifier src={productImage?.url} alt="productImage" />
+          </div>
+        </div>
+        {popup && (
+          <div className="transition-all duration-300 ease-in-out opacity-100 ">
+            <ProductPopup
+              setPopup={setPopup}
+              productImage={productImage}
+              product={product}
+              setProductImage={setProductImage}
+            />
+          </div>
+        )}
+      </div>
+      </div>
+      ):("No product Image")
+    }
     </div> 
 <div>                                                  {/* Second main div  */}
     <div className='detailsBlock-1'>
@@ -110,7 +152,9 @@ const ProductDetails = () => {
     <p>Product # {product._id}</p>
     </div>
     <div className='detailsBlock-2'>
-    <Rating {...options}/>
+    <Rating {...options}     sx={{
+        zIndex:0
+    }}/>
     <span> ({product.numOfReviews} Reviews )</span>
     </div>
     <div className='detailsBlock-3'>
@@ -133,8 +177,29 @@ const ProductDetails = () => {
          <div className='detailsBlock-4'>
           Description: <p>{product.description}</p>
          </div>
-          <button className='submitReview' onClick={SubmitReviewToggle}>Submit Review</button>
-      </div>                                              {/*  Second main div          */}
+          <button className='submitReview' onClick={SubmitReviewToggle}>Submit Review</button> {/*  Second main div          */}
+          <div className='select-none cursor-pointer'>
+      <span className="text-md font-segoe font-semibold text-heading">
+                Offers
+              </span>
+              <ul className="flex flex-col gap-1">
+                <li className="text-sm text-green-700 font-semibold font-segoe flex gap-2 tracking-wide items-center">
+                  <IoPricetagOutline color="black" /> Order  and get upto 10%
+                  off.
+                </li>
+                <li className="text-sm text-green-700 font-semibold font-segoe flex gap-2 tracking-wide items-center">
+                  <IoPricetagOutline color="black" /> Get flat 5% off on Bulk
+                  order.
+                </li>
+                <li className="text-sm text-green-700 font-semibold font-segoe flex gap-2 tracking-wide items-center">
+                  <IoPricetagOutline color="black" /> Get a free Demo on Bulk
+                  order.
+                </li>
+                {/* <ProductSlider forOffers={true} /> */}
+              </ul>
+        </div>    
+      </div>    
+                                         
     </div>                                    
       <h3 className='reviewHeading'>REVIEWS</h3> 
       <Dialog
@@ -145,8 +210,8 @@ const ProductDetails = () => {
         <DialogTitle>Submit Review</DialogTitle>
         <DialogContent className='submitDialog'>
         <Rating
-        onChange={(e)=>setRating(e.target.value)}
-        value={rating}
+        onChange={(e)=>setRating(parseFloat(e.target.value))}
+        value={parseFloat(rating)}
         size= "large" />
         <textarea 
         className='submitDialogTextArea'
@@ -160,7 +225,7 @@ const ProductDetails = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={SubmitReviewToggle}>Cancel</Button>
-          <Button onClick={reviewSubmitHandler} >Sumit</Button>
+          <Button onClick={reviewSubmitHandler} >Submit</Button>
         </DialogActions>
 
       </Dialog>
