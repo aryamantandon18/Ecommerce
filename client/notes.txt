@@ -1,0 +1,6 @@
+---------------------docker - frontend-----------------------
+docker build -t ecmm_frontend .
+docker network create ecmm_network
+docker network inspect ecmm_network   // to get the details of this ecmm_network
+docker run -d -p 3000:3000 --net ecmm_network --name ecmm_front ecmm_frontend 
+

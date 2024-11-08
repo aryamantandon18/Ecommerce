@@ -82,9 +82,6 @@ const discounts = [
   }
 ]
 export const Filter = () => {
-    // const router = useRouter();
-    // const[filterOpen,setFilterOpen] = useState(false);
-    // const closeSampleProductFilter = ()=>{setFilterOpen(false)}
   return (
     <>
      <div className="flex flex-col w-full h-full p-3">
@@ -92,14 +89,6 @@ export const Filter = () => {
         <h2 className="font-bold text-xl /md:text-2xl m-0 text-heading pb-4">
           Filter Products
         </h2>
-
-        {/* <button
-          className="flex text-2xl items-center justify-center text-gray-500 px-4 md:px-6 py-3 /lg:py-8 focus:outline-none transition-opacity hover:opacity-60"
-          onClick={closeSampleProductFilter}
-          aria-label="close"
-        >
-          <IoClose className="text-black mt-1 md:mt-0.5" />
-        </button> */}
       </div>
       <div className='mt-1 border-b-2 border-gray-350 ps-5 md:ps-7 py-0.5 w-[90%]'>
         <SampleCategoryFilter categories={categories}/>

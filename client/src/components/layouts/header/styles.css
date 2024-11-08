@@ -63,17 +63,6 @@
   margin-left: 20px;
   font:600 2.2vmax "Roboto"; 
 }
-/* 
-.speedDial{
-  position:fixed;
-  top:0.7vmax;
-  right:4vmax;
-}
-.speedDialIcon{
-  width:48px;
-  height:48px;
-  border-radius: 100%;
-} */
 
 @media screen and (max-width:730px) and (min-width:600px){
   .rightPart>ul>li{

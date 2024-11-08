@@ -95,7 +95,7 @@ const ProductDetails = () => {
     },[id])
     useEffect(()=>{
       if(product?.images) setProductImage(product?.images[0]);
-    },[product])
+    },[product,dispatch])
   return ( 
 <Fragment>
     {loading?(<Loader/>):error?(toast.error(error.message))

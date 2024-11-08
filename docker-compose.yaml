@@ -1,0 +1,32 @@
+version: "3.8"
+name: ecmm
+services:
+
+  ecmm_backend_service:
+    image: ecmm_backend
+    container_name: ecmm_back
+    build:
+      context: ./backend    # The context is the folder that holds your code
+      dockerfile: Dockerfile  # Explicitly set the Dockerfile name (optional if named "Dockerfile")
+    env_file:
+      - ./backend/data/config.env
+    ports: 
+      - 4000:4000
+    networks:
+      - dock_mern
+
+  client:
+    image: ecmm_frontend
+    container_name: ecmm_front
+    build:
+      context: ./client
+    ports: 
+      - "3000:3000"  
+    depends_on:
+      - ecmm_backend_service
+    networks:
+      - dock_mern
+
+networks:
+  dock_mern:
+    driver: bridge  # This defines the default network driver

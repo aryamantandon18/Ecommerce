@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useContext, useEffect, useState } from 'react'
 import './product.css'
 import Loader from '../layouts/loader/Loader'
 import { useDispatch, useSelector } from 'react-redux'
@@ -10,35 +10,36 @@ import MetaData from '../layouts/MetaData'
 import {toast} from'react-hot-toast'
 import { Button, Slider } from '@mui/material'
 import {Typography} from '@mui/material'
+import { AppContext } from '../..'
 // import { Filter } from './Filter.jsx'
 
 
 const categories = [
   "Laptop",
   "Footwear",
-  "Phone",
+  "Bottom",
   "Tops",
   "Electronics",
   "Camera",
   "SmartPhones",
+  "Cars",
   "Shoes",
   "Watch",
+  "women",
+  "men",
 ];
 
 const Products = () => {
-  const [currentPage,setCurrentPage] = useState(1);
-  const [price,setPrice] = useState([0,50000]);
-  const [rating, setRating] = useState(0);
-  const [category, setCategory] = useState("");
-
- 
+  const {currentPage,setCurrentPage, price,setPrice,rating, setRating,
+    category,
+    setCategory,
+    finalKeyword,
+    setFinalKeyword
+  } = useContext(AppContext);
   
   const setCurrentPageNo = (e)=>{
     setCurrentPage(e);
   }
-// console.log(currentPage);
-
-
   const dispatch = useDispatch();
   // const {keyword} = useParams();
   const {products,loading,error,productsCount,resultPerPage} = useSelector((state)=>state.products);
@@ -46,12 +47,19 @@ const Products = () => {
   const priceHandler=(e,newPrice)=>{
 setPrice(newPrice);
   }
-  const [finalKeyword,setFinalKeyword] = useState();
-
-  useEffect(()=>{
-    if(error) {return toast.error(error);}
-    dispatch(getProduct(finalKeyword,currentPage,price,rating,category));
-  },[dispatch,finalKeyword,currentPage,error,price,rating,category])
+  const handleCategoryClick = (category) => {
+    setFinalKeyword("");
+    setCategory(category);
+  };
+  useEffect(() => {
+    console.log("Fetching products with:", { finalKeyword, currentPage, price, rating, category });
+    if (error) { 
+      toast.error(error);
+      return;
+    }
+    dispatch(getProduct(finalKeyword, currentPage, price, rating, category));
+  }, [dispatch,currentPage, error, price, rating, category]);
+  
 
 
   // const count = filteredProductsCount;
@@ -91,7 +99,8 @@ setPrice(newPrice);
                 <li
                   className="category-link"
                   key={category}
-                  onClick={() => setCategory(category)}
+                  onClick={() => handleCategoryClick(category)}
+                  style={{ cursor: 'pointer' }}
                 >
                   {category}
                 </li>

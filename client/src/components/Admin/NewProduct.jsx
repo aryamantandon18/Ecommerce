@@ -44,7 +44,10 @@ const NewProduct = () => {
     "Cars",
     "Shoes",
     "Watch",
+    "women",
+    "men",
   ];
+  
 
   useEffect(()=>{
     if(error){

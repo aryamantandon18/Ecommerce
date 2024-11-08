@@ -24,22 +24,37 @@ import{
 } from '../constants/productConstants.js'
 import { server } from '../index.js';
 
-export const getProduct =(finalKeyword='',currentPage= 1, price=[0,50000] , rating=0) => async(dispatch)=>{
+export const getProduct = (
+    finalKeyword = "",
+    currentPage = 1,
+    price = [0, 50000],
+    rating = 0,
+    category = ""
+  ) => async (dispatch) => {
     try {
-        dispatch({type : ALL_PRODUCT_REQUEST})
-        let link =`${server}/products?keyword=${finalKeyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&rating[gte]=${rating}`;
-        const {data} =  await axios.get(link);
-        dispatch({
-            type: ALL_PRODUCT_SUCCESS,
-            payload: data,
-        })
+      dispatch({ type: ALL_PRODUCT_REQUEST });
+  
+      // Constructing the API endpoint with optional category filter
+      let link = `${server}/products?keyword=${finalKeyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&rating[gte]=${rating}`;
+  
+      // Append category to the query string if a category is selected
+      if (category) {
+        link += `&category=${category}`;
+      }
+  
+      const { data } = await axios.get(link);
+      dispatch({
+        type: ALL_PRODUCT_SUCCESS,
+        payload: data,
+      });
     } catch (error) {
-        dispatch({
-            type: ALL_PRODUCT_FAIL,
-            payload: error.response?.data?.message,
-        });
+      dispatch({
+        type: ALL_PRODUCT_FAIL,
+        payload: error.response?.data?.message,
+      });
     }
-}
+  };
+  
 //for ADMIN
 export const getAdminProducts = () => async (dispatch) => {
     try {

@@ -3,13 +3,11 @@ import { DataGrid } from "@mui/x-data-grid";
 import Loader from "../layouts/loader/Loader";
 import { Typography } from "@mui/material";
 import MetaData from "../layouts/MetaData";
-import toast from "react-hot-toast";
-import { clearErrors, myOrders } from "../../actions/orderAction";
+import { myOrders } from "../../actions/orderAction";
 import LaunchIcon from "@mui/icons-material/Launch";
 import './myOrders.css';
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-// import { CLEAR_ERRORS } from "../../constants/orderConstant";
 
 const MyOrders = () => {
   const dispatch = useDispatch();

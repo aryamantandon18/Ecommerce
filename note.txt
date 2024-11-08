@@ -64,5 +64,99 @@ Excited to discuss the development journey and explore potential collaborations!
     validation.setFieldValue("tieredPricing", tieredpricingCat);
   };
 
+  ______________________________________________________________________________________________________________
+
+https://nodejs-todoapp-yor3.onrender.com/task/my
+
+mongodb+srv://aryamantandon18:aryaman123@cluster0.ixbw6jy.mongodb.net/?retryWrites=True
+
+mongodb+srv://tandonaryaman1:aryutanu@cluster0.h67ntmp.mongodb.net/Ecommerce?retryWrites=True     ------
+
+mongodb+srv://tandonaryaman1:aryutanu@cluster0.h67ntmp.mongodb.net/?retryWrites=True
+mongodb://127.0.0.1:27017
+----------------------------------------------------------------------------------
+Explanation of Clustering
+Clustering allows Node.js applications to scale more effectively across multi-core systems by creating multiple instances of the application, each running on a separate CPU core. Node.js is single-threaded by default, so without clustering, only one CPU core is used regardless of how many are available. Here’s how clustering works:
+
+Primary vs. Worker Processes:
+
+The primary (or "master") process manages the worker processes and doesn’t directly handle requests.
+Worker processes are forked by the primary process to handle actual server requests, allowing each to use a separate core.
+Load Balancing:
+
+In cluster mode, the primary process automatically distributes incoming connections among the workers, effectively balancing the load.
+Fault Tolerance:
+
+If a worker crashes, the primary process can detect this and restart the worker, increasing the application’s resilience.
+Efficient Resource Utilization:
+
+By using all CPU cores, the application can handle more requests concurrently, reducing response time and increasing throughput.
+
+When you call app.listen(port, callback) in Express, it internally uses http.createServer() to create an HTTP server instance and starts listening on the specified port.
+By not requiring http.createServer(), Express allows you to skip boilerplate code and directly start adding routes and middleware. This makes your server setup code simpler and easier to maintain.
+
+---------------------------------------REDIS----------------------
+docker run -d --name redis-stack -p 6379:6379 -p 8001:8001 redis/redis-stack:latest
+docker ps
+exec -it e3eb36a79f37 bash
+redis-cli 
+set name aryaman //OK
+get name //"aryaman"
+
+-----------------------------------dockerfile - backend-----------------------------------
+docker build -t ecmm_backend .     // creating a docker image named ecmm_backend and this " . " represents the path of the docker file , which is in the current directory here if we are in backend folder
+
+docker run -d -p 4000:4000 --env-file ./data/config.env ecmm_backend
+docker run -d -p 4000:4000 --net ecmm_network --env-file ./data/config.env --name ecmm_back ecmm_backend
+
+docker compose up -d  // or we can use docker compose -f path_to_docker-compose.yaml_file up -d 
+docker compose down
 
 
+version: "3.8"
+name: ecmm
+services:
+  # do not need to use the official MongoDB Docker image if we are using MongoDB atlas string
+  # mongodb:
+  #   image: mongo:7
+  #   volumes:
+  #     - mongodb_data:/data/db
+  #   networks:
+  #     - dock_mern
+
+  ecmm_backend_service:
+    image: ecmm_backend
+    container_name: ecmm_back
+    env_file:
+      - ./backend/data/config.env
+    build: 
+      dockerfile: Dockerfile 
+      context: "./backend"
+    volumes:
+      - ./backend:/app
+      - logs:/app/logs
+    command: npm run dev
+    depends_on:
+      - mongodb  
+    networks:
+      - dock_mern
+
+  client:
+    build: 
+      dockerfile: Dockerfile
+      context: ./client 
+    ports: 
+      - "3000:3000"  
+    volumes: 
+      - ./client/src:/app/src
+    depends_on:
+      - api
+    networks:
+      - dock_mern
+
+volumes:
+  mongodb_data:
+  logs:
+
+networks:
+  dock_mern:
