@@ -20,7 +20,7 @@ export const AppProvider = ({ children }) => {
   );
 };
 
-export const server = "http://localhost:4000";
+export const server = "https://ecmm-nhgl.onrender.com";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
