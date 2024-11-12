@@ -99,7 +99,7 @@ export const ProfileReducer =(state ={user:{}} , action)=>{
     
     }
 
-    export const forgotPasswordReducer =(state ={user:{}} , action)=>{
+export const forgotPasswordReducer =(state ={user:{}} , action)=>{
         switch(action.type){
             case FORGOT_PASSWORD_REQUEST:
             case RESET_PASSWORD_REQUEST:

@@ -53,7 +53,7 @@ return (
       </div>
     ):(
        <Fragment>
-       <div className="cartPage">
+       <div className="cartPage bg-gray-50">
          <div className="cHeading">Your Cart</div>
        <div className="cHeader">
          <p>Product</p>
@@ -82,7 +82,7 @@ return (
          </div>
          <div></div>
          <div className="checkOutBtn">
-           <button onClick={checkOut}>Check Out</button>
+           <button onClick={checkOut} className='bg-blue-500 hover:bg-blue-600 text-white'>Check Out</button>
          </div>
        </div>
        </div>

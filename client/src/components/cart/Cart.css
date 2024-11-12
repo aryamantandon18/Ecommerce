@@ -1,6 +1,7 @@
 .cartPage{
     padding:5vmax;
-    padding-top:11vh ;
+    padding-top:10vh ;
+    height:100vh;
 }
 .cHeading{
     display:block;
@@ -89,8 +90,7 @@
     justify-content: flex-end;
   }
   .checkOutBtn > button {
-    background-color: rgb(247, 226, 0);
-    color: black;
+    /* background-color: rgb(247, 226, 0); */
     border: none;
     padding: 0.8vmax 4vmax;
     width: 50%;
@@ -100,9 +100,9 @@
     border-radius: 30px;
   }
 
-  .checkOutBtn>button:hover{
+  /* .checkOutBtn>button:hover{
     background-color: gold;
-  }
+  } */
   .emptyCart {
     margin: auto;
     text-align: center;

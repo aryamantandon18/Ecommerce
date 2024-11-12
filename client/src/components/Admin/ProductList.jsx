@@ -100,23 +100,24 @@ if(Array.isArray(products)){
    }) }
 return (
     <Fragment>
-     {console.log(products)}
-        <MetaData title={'ALL Products - ADMIN'}/>
-        <div className='dashboard'>
-            <SideBar/>
-            <div className='productListContainer'>
-                <h1 id='productListHeading'>ALL PRODUCTS</h1>
-            <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSizeOptions={[10]}
-            disableSelectionOnCLick
-            autoHeight
-            className='productListTable'
-            />
+    <MetaData title={'ALL Products - ADMIN'} />
+    <div className="flex sm:mt-20 mt-16 h-[125vh]">
+        <SideBar />
+        <div className="flex-1 p-6 bg-gray-100 overflow-x-scroll">
+            <h1 className="text-3xl font-semibold mb-6">ALL PRODUCTS</h1>
+            <div className="bg-white shadow-md rounded-lg p-4">
+                <DataGrid
+                    rows={rows}
+                    columns={columns}
+                    pageSizeOptions={[10]}
+                    disableSelectionOnClick
+                    autoHeight
+                    className="productListTable"
+                />
             </div>
         </div>
-    </Fragment>
+    </div>
+</Fragment>
   )
 }
 

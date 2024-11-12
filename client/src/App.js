@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import store from "./store.js";
 import { loadUser } from "./actions/userActions.js";
 import Loader from "./components/layouts/loader/Loader.jsx";
+import AllReviews from "./components/Admin/AllReviews.jsx";
 
 // Dynamically import components using lazy
 const Header = lazy(() => import("./components/layouts/header/Header.jsx"));
@@ -31,7 +32,6 @@ const OrderDetails = lazy(() => import("./components/Order/OrderDetails.js"));
 const Dashboard = lazy(() => import('./components/Admin/Dashboard.jsx'));
 const NewProduct = lazy(() => import("./components/Admin/NewProduct.jsx"));
 const ProductList = lazy(() => import("./components/Admin/ProductList.jsx"));
-const UserOptions = lazy(() => import("./components/layouts/header/UserOptions.jsx"));
 const OrderList = lazy(() => import("./components/Admin/OrderList.jsx"));
 const UpdateProduct = lazy(() => import("./components/Admin/UpdateProduct.jsx"));
 const AllUsers = lazy(() => import("./components/Admin/AllUsers.jsx"));
@@ -53,21 +53,13 @@ function App() {
     <Router>
       <Suspense fallback={<Loader/>}>
         <Header />
-        {isAuthenticated && <UserOptions user={user} />}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/products" element={<Products />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route
-            path="/account"
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/account" element={ <ProtectedRoute><Profile/></ProtectedRoute> }/>
           <Route path="/me/update" element={<UpdateProfile />} />
           <Route path="/password/update" element={<UpdatePassword />} />
           <Route path="/password/forgot" element={<ForgotPassword />} />
@@ -85,6 +77,7 @@ function App() {
           <Route path="/admin/product/:id" element={<UpdateProduct />} />
           <Route path="/admin/orders" element={<OrderList />} />
           <Route path="/admin/users" element={<AllUsers />} />
+          <Route path="/admin/reviews" element={<AllReviews/>}/>
         </Routes>
         <Footer />
         <Toaster />

@@ -7,7 +7,7 @@
     left: 0%;
     max-width: 100%;
     background-color: white;
-    padding-top: 5vh;
+    padding-top: 8vh;
   }
   
   .profileContainer > div {
@@ -36,7 +36,6 @@
   }
   .profileContainer > div:first-child > a {
     border: none;
-    background-color: tomato;
     font: 400 1vmax "Roboto";
     color: white;
     text-decoration: none;
@@ -45,9 +44,6 @@
     margin: 4vmax;
     text-align: center;
     transition: all 0.5s;
-  }
-  .profileContainer > div:first-child > a:hover {
-    background-color: rgb(204, 78, 56);
   }
 .profileContainer>div:last-child{
     justify-content: space-evenly;

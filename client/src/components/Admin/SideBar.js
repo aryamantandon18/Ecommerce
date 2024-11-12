@@ -1,78 +1,54 @@
-import React, { useEffect } from 'react'
-import { Link ,useLocation, useNavigate} from 'react-router-dom'
-// import { TreeItem, TreeView } from '@material-ui/lab';
-// import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-// import ImportExportIcon from '@mui/icons-material/ImportExport';
-// import PostAddIcon from '@mui/icons-material/PostAdd';
-import AddIcon from '@mui/icons-material/Add';
-import logo from '../../images/logo.png'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import DashboardIcon from '@mui/icons-material/Dashboard'
+import AddIcon from '@mui/icons-material/Add'
 import ListAltIcon from '@mui/icons-material/ListAlt'
 import PeopleIcon from '@mui/icons-material/People'
 import RateReviewIcon from '@mui/icons-material/RateReview'
-import './SideBar.css'
-
+import { FaBars, FaTimes } from 'react-icons/fa'
 
 const SideBar = () => {
-    const location = useLocation();
-    useEffect(() => {
-      if (window.innerWidth <= 768) {
-        setTimeout(() => {
-          window.scrollTo(0, document.body.scrollHeight);
-        }, 100);
-      }
-    }, [location]);
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen)
+  }
 
   return (
-    <div className="sidebar">
-      <Link to="/">
-        <img src={logo} alt="Ecommerce" />
-      </Link>
-      <Link to="/admin/dashboard">
-        <p>
-          <DashboardIcon /> Dashboard
-        </p>
-      </Link>
-      <Link to="/admin/product">
-      <p>
-          <AddIcon/>
-          Create Product
-        </p>
-      </Link>
-      <Link to="/admin/orders">
-        <p>
+    <div className={`flex flex-col h-[125vh] bg-gray-800 text-white ${sidebarOpen ? 'w-64' : 'w-[55px]'} lg:w-64 transition-all`}>
+      {/* Hamburger icon for mobile view */}
+      <div className="lg:hidden p-4 cursor-pointer pt-5" onClick={toggleSidebar}>
+        {sidebarOpen ? <FaTimes className="text-white" size={24} /> : <FaBars className="text-white" size={24} />}
+      </div>
+
+      <div className="flex flex-col items-start py-4 px-2 space-y-4 z-30">
+        <Link to="/admin/dashboard" className="flex items-center space-x-2 hover:bg-gray-700 p-2 rounded-lg mb-4 group">
+          <DashboardIcon />
+          <span className={`ml-2 text-sm ${sidebarOpen ? 'inline-block' : 'hidden group-hover:inline-block lg:inline-block'}`}>Dashboard</span>
+        </Link>
+
+        <Link to="/admin/product" className="flex items-center space-x-2 hover:bg-gray-700 p-2 rounded-lg mb-4 group">
+          <AddIcon />
+          <span className={`ml-2 text-sm ${sidebarOpen ? 'inline-block' : 'hidden group-hover:inline-block lg:inline-block'}`}>Create Product</span>
+        </Link>
+
+        <Link to="/admin/orders" className="flex items-center space-x-2 hover:bg-gray-700 p-2 rounded-lg mb-4 group">
           <ListAltIcon />
-          Orders
-        </p>
-      </Link>
-      <Link to="/admin/users">
-        <p>
-          <PeopleIcon /> Users
-        </p>
-      </Link>
-      <Link to="/admin/reviews">
-        <p>
+          <span className={`ml-2 text-sm ${sidebarOpen ? 'inline-block' : 'hidden group-hover:inline-block lg:inline-block'}`}>Orders</span>
+        </Link>
+
+        <Link to="/admin/users" className="flex items-center space-x-2 hover:bg-gray-700 p-2 rounded-lg mb-4 group">
+          <PeopleIcon />
+          <span className={`ml-2 text-sm ${sidebarOpen ? 'inline-block' : 'hidden group-hover:inline-block lg:inline-block'}`}>Users</span>
+        </Link>
+
+        <Link to="/admin/reviews" className="flex items-center space-x-2 hover:bg-gray-700 p-2 rounded-lg mb-4 group">
           <RateReviewIcon />
-          Reviews
-        </p>
-      </Link>
+          <span className={`ml-2 text-sm ${sidebarOpen ? 'inline-block' : 'hidden group-hover:inline-block lg:inline-block'}`}>Reviews</span>
+        </Link>
+      </div>
     </div>
   )
 }
 
 export default SideBar
-
- {/* <TreeView
-          defaultCollapseIcon={<ExpandMoreIcon />}
-          defaultExpandIcon={<ImportExportIcon />}
-        >
-          <TreeItem nodeId="1" label="Products">
-            <Link to="/admin/products">
-              <TreeItem nodeId="2" label="All" icon={<PostAddIcon />} />
-            </Link>
-
-            <Link to="/admin/product">
-              <TreeItem nodeId="3" label="Create" icon={<AddIcon />} />
-            </Link>
-          </TreeItem>
-        </TreeView> */}

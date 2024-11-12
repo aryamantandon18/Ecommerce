@@ -27,7 +27,7 @@ const Profile = () => {
         <div>
             <h1>My Profile</h1>
             {user.avatar && <img src={ user.avatar.url} alt={ user && user.name}/>}
-            <Link to="/me/update">Edit Profile</Link>
+            <Link to="/me/update" className='bg-blue-500 hover:bg-blue-600'>Edit Profile</Link>
         </div>
         <div>
         <div>

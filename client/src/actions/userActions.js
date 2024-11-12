@@ -97,23 +97,18 @@ export const updateProfile=(userData)=>async(dispatch)=>{
  export const resetPassword=(token,passwords)=>async(dispatch)=>{
             try {
                 dispatch({type:RESET_PASSWORD_REQUEST})
-            
                 const config = { headers:{"Content-Type":"application/json"}, withCredentials:true, };   
-            
                 const {data} = await axios.put(`${server}/users/password/reset/${token}`,passwords,config);
-            
                 dispatch({type:RESET_PASSWORD_SUCCESS,payload:data.success});
-            
             } catch (error) {
                 console.log(error);
-                dispatch({type:RESET_PASSWORD_FAIL,payload:error.response.data.message});
+                dispatch({type:RESET_PASSWORD_FAIL,payload:error?.response?.data?.message});
             }
-            }           
+        }           
 
 export const loadUser =() => async(dispatch)=>{
     try {
         dispatch({type:LOAD_USER_REQUEST});
-
         const {data} = await axios.get(`${server}/users/me`,{
             withCredentials:true,                   //fix bug of getting loggouted on reloading
           });
@@ -128,7 +123,7 @@ export const loadUser =() => async(dispatch)=>{
 
 export const logout=() => async(dispatch)=>{
     try {
-        const {data} = await axios.get(`${server}/users/logout`,{
+        await axios.get(`${server}/users/logout`,{
             withCredentials:true,
         });
         dispatch({type:LOGOUT_SUCCESS})

@@ -98,7 +98,7 @@ const NewProduct = () => {
   return (
     <Fragment>
     <MetaData title="Create Product" />
-    <div className="dashboard">
+      <div className="flex mt-16 sm:mt-20 h-[125vh] bg-[#DDDDDD]">
       <SideBar />
       <div className="newProductContainer">
         <form
@@ -173,7 +173,8 @@ const NewProduct = () => {
             <Button
             id="createProductBtn"
             type="submit"
-            disabled={loading? true: false}>
+            disabled={loading? true: false}
+            >
                 Create
             </Button>
         </form>

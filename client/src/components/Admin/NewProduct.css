@@ -93,8 +93,8 @@
 }
 #createProductBtn {
   border: none;
-  background-color: var(--main-color);
-  color: white;
+  color:white;
+  background-color:  #3b82f6 ;
   font: 300 0.9vmax "Roboto";
   width: 100%;
   padding: 0.8vmax;
@@ -106,7 +106,7 @@
 }
 
 #createProductBtn:hover {
-  background-color: #0159a1;
+  background-color: #0968b7;
 }
 
 @media screen and (max-width: 600px) {
@@ -115,7 +115,9 @@
   }
   .createProductForm {
     padding: 2vmax;
-    width: 45vh;
+    width: 75vw;
+    height:70vh;
+    margin-top: 64px;
   }
 
   .createProductForm > div > input,

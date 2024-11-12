@@ -1,9 +1,7 @@
 .orderSuccess {
-    padding-top: 11vh;
-    margin: auto;
-    text-align: center;
-    padding: 10vmax;
-    height: 50vh;
+  margin: auto;
+  text-align: center;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -52,7 +52,6 @@ setPrice(newPrice);
     setCategory(category);
   };
   useEffect(() => {
-    console.log("Fetching products with:", { finalKeyword, currentPage, price, rating, category });
     if (error) { 
       toast.error(error);
       return;

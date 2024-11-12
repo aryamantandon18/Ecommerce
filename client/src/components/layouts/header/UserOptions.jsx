@@ -1,79 +1,69 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { SpeedDial, SpeedDialAction, Tooltip } from '@mui/material';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import PersonIcon from '@mui/icons-material/Person';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import ListAltIcon from '@mui/icons-material/ListAlt';
+import { Dashboard, Person, ExitToApp, ListAlt } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { logout } from '../../../actions/userActions';
 import { useDispatch } from 'react-redux';
+import { logout } from '../../../actions/userActions';
 import toast from 'react-hot-toast';
 
-const UserOptions = ({ user }) => {
-    const [open, setOpen] = useState(false);
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    
-    const options = [
-        { icon: <ListAltIcon />, name: "Orders", func: orders },
-        { icon: <PersonIcon />, name: "Profile", func: profile },
-        { icon: <ExitToAppIcon />, name: "Logout", func: logoutUser },
-    ];
+const UserOptions = ({ user, top, left, noOptions }) => {
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-    if (user && user.role === "Admin") {
-        options.unshift({
-            icon: <DashboardIcon />,
-            name: "Dashboard",
-            func: dashboard,
-        });
-    }
+  const options = [
+    { icon: <ListAlt />, name: "Orders", func: () => navigate('/orders') },
+    { icon: <Person />, name: "Profile", func: () => navigate('/account') },
+    { icon: <ExitToApp />, name: "Logout", func: logoutUser },
+  ];
 
-    function dashboard() {
-        navigate('/admin/dashboard');
-    }
-    function orders() {
-        navigate('/orders');
-    }
-    function profile() {
-        navigate('/account');
-    }
-    function logoutUser() {
-        dispatch(logout());
-        toast.success("Logged out successfully");
-    }
+  if (user && user.role === "Admin") {
+    options.unshift({
+      icon: <Dashboard />,
+      name: "Dashboard",
+      func: () => navigate('/admin/dashboard'),
+    });
+  }
 
-    return (
-        <Fragment>
-            <Tooltip title="More options" placement="bottom">
-                <SpeedDial
-                    ariaLabel="SpeedDial tooltip example"
-                    onClose={() => setOpen(false)}
-                    onOpen={() => setOpen(true)}
-                    open={open}
-                    direction="down"
-                    className="speedDial"
-                    icon={
-                        <img
-                            className='speedDialIcon'
-                            src={user.avatar.url ? user.avatar.url : "/Profile.png"}
-                            alt='Profile'
-                        />
-                    }
-                >
-                    {options.map((item) => (
-                        <SpeedDialAction
-                            key={item.name}
-                            icon={item.icon}
-                            tooltipTitle={item.name}
-                            onClick={item.func}
-                            tooltipOpen={window.innerWidth <= 600 ? true : false}
-                            tooltipPlacement="right"
-                        />
-                    ))}
-                </SpeedDial>
-            </Tooltip>
-        </Fragment>
-    );
-}
+  function logoutUser() {
+    dispatch(logout());
+    toast.success("Logged out successfully");
+  }
+
+  // If noOptions is true, just navigate to "/profile" on click
+  const handleClick = () => {
+      navigate('/account'); 
+  };
+
+  return (
+    <SpeedDial
+      ariaLabel="User options"
+      sx={{ position: 'absolute', top: top, left: left }}
+      icon={
+        <img
+          src={user.avatar.url ? user.avatar.url : "/Profile.png"}
+          alt="Profile"
+          className="w-10 h-10 rounded-full object-cover "
+        />
+      }
+      onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
+      open={open}
+      direction="down"
+      onClick={handleClick} // Handle click event
+    >
+      {/* {!noOptions &&
+        options.map((option) => (
+          <SpeedDialAction
+            key={option.name}
+            icon={option.icon}
+            tooltipTitle={option.name}
+            onClick={option.func}
+            tooltipOpen={window.innerWidth <= 600}
+          />
+        ))} */}
+    </SpeedDial>
+  );
+};
 
 export default UserOptions;

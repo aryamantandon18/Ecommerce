@@ -98,7 +98,7 @@ By not requiring http.createServer(), Express allows you to skip boilerplate cod
 ---------------------------------------REDIS----------------------
 docker run -d --name redis-stack -p 6379:6379 -p 8001:8001 redis/redis-stack:latest
 docker ps
-exec -it e3eb36a79f37 bash
+docker exec -it e3eb36a79f37 bash
 redis-cli 
 set name aryaman //OK
 get name //"aryaman"
