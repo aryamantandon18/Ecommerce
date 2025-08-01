@@ -53,7 +53,7 @@ flowchart TD
 ### Entity Relationship
 
 ```mermaid
-  erDiagram
+erDiagram
   USER ||--o{ ORDER : places
   USER ||--o{ REVIEW : writes
   ORDER ||--|{ ORDERITEM : includes
@@ -64,7 +64,7 @@ flowchart TD
     string _id
     string name
     string email
-    string password (hashed)
+    string password
     string role
   }
   PRODUCT {
@@ -73,27 +73,35 @@ flowchart TD
     string description
     number price
     number stock
-    image[] images
-    video[] videos
+    string[] images
+    string[] videos
     string category
   }
   REVIEW {
     string _id
-    ref user
-    ref product
+    string userId
+    string productId
     string comment
     number rating
     date createdAt
   }
   ORDER {
     string _id
-    ref user
+    string userId
     object shippingInfo
-    array orderItems
+    object[] orderItems
     object paymentInfo
     date paidAt
     string orderStatus
     date deliveredAt
+  }
+  ORDERITEM {
+    string _id
+    string name
+    number price
+    number quantity
+    string image
+    string productId
   }
 
 ```
