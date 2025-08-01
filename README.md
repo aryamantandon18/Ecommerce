@@ -53,6 +53,7 @@ flowchart TD
 ### Entity Relationship
 
 ```mermaid
+  erDiagram
   USER ||--o{ ORDER : places
   USER ||--o{ REVIEW : writes
   ORDER ||--|{ ORDERITEM : includes
