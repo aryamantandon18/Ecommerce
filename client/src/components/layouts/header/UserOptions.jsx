@@ -1,68 +1,24 @@
-import React, { useState } from 'react';
-import { SpeedDial, SpeedDialAction, Tooltip } from '@mui/material';
-import { Dashboard, Person, ExitToApp, ListAlt } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { logout } from '../../../actions/userActions';
-import toast from 'react-hot-toast';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const UserOptions = ({ user, top, left, noOptions }) => {
-  const [open, setOpen] = useState(false);
+const UserOptions = ({ user,onMobile }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const options = [
-    { icon: <ListAlt />, name: "Orders", func: () => navigate('/orders') },
-    { icon: <Person />, name: "Profile", func: () => navigate('/account') },
-    { icon: <ExitToApp />, name: "Logout", func: logoutUser },
-  ];
-
-  if (user && user.role === "Admin") {
-    options.unshift({
-      icon: <Dashboard />,
-      name: "Dashboard",
-      func: () => navigate('/admin/dashboard'),
-    });
-  }
-
-  function logoutUser() {
-    dispatch(logout());
-    toast.success("Logged out successfully");
-  }
-
-  // If noOptions is true, just navigate to "/profile" on click
-  const handleClick = () => {
-      navigate('/account'); 
-  };
 
   return (
-    <SpeedDial
-      ariaLabel="User options"
-      sx={{ position: 'absolute', top: top, left: left }}
-      icon={
-        <img
-          src={user.avatar.url ? user.avatar.url : "/Profile.png"}
-          alt="Profile"
-          className="w-10 h-10 rounded-full object-cover "
-        />
-      }
-      onClose={() => setOpen(false)}
-      onOpen={() => setOpen(true)}
-      open={open}
-      direction="down"
-      onClick={handleClick} // Handle click event
+    <button
+      onClick={() => navigate("/account")}
+      className={`relative flex items-center justify-center w-10 h-10 md:w-10 md:h-10 
+        rounded-full overflow-hidden border-2 border-transparent border-yellow-300 
+        transition duration-300 shadow-md
+        ${onMobile ? "absolute top-[-292px]" : ""} // Position for mobile
+      `}
     >
-      {/* {!noOptions &&
-        options.map((option) => (
-          <SpeedDialAction
-            key={option.name}
-            icon={option.icon}
-            tooltipTitle={option.name}
-            onClick={option.func}
-            tooltipOpen={window.innerWidth <= 600}
-          />
-        ))} */}
-    </SpeedDial>
+      <img
+        src={user?.avatar?.url || "/Profile.png"}
+        alt="Profile"
+        className="w-[40px] h-[40px] object-cover rounded-full"
+      />
+    </button>
   );
 };
 

@@ -3,13 +3,12 @@ import "./App.css";
 import React, { useEffect, lazy, Suspense } from "react";
 import webFont from "webfontloader";
 import { Toaster } from "react-hot-toast";
-import { useSelector } from "react-redux";
 import store from "./store.js";
 import { loadUser } from "./actions/userActions.js";
 import Loader from "./components/layouts/loader/Loader.jsx";
 import AllReviews from "./components/Admin/AllReviews.jsx";
+import SendEmailPage from "./components/Admin/SendEmailPage.jsx";
 
-// Dynamically import components using lazy
 const Header = lazy(() => import("./components/layouts/header/Header.jsx"));
 const Footer = lazy(() => import("./components/layouts/footer/Footer.jsx"));
 const ProductDetails = lazy(() => import("./components/product/productDetails.js"));
@@ -36,10 +35,10 @@ const OrderList = lazy(() => import("./components/Admin/OrderList.jsx"));
 const UpdateProduct = lazy(() => import("./components/Admin/UpdateProduct.jsx"));
 const AllUsers = lazy(() => import("./components/Admin/AllUsers.jsx"));
 const Home = lazy(() => import("./components/Home/Home.jsx"));
+const ProcessOrder = lazy(()=> import("./components/Admin/ProcessOrder.jsx"));
+const NotFound = lazy(() => import("./components/Routes/NotFound.jsx"))
 
 function App() {
-  const { isAuthenticated, user } = useSelector((state) => state.user);
-
   useEffect(() => {
     webFont.load({
       google: {
@@ -76,8 +75,12 @@ function App() {
           <Route path="/admin/product" element={<NewProduct />} />
           <Route path="/admin/product/:id" element={<UpdateProduct />} />
           <Route path="/admin/orders" element={<OrderList />} />
+          <Route path="admin/order/:id" element={<ProcessOrder/>}/>
           <Route path="/admin/users" element={<AllUsers />} />
           <Route path="/admin/reviews" element={<AllReviews/>}/>
+          <Route path="/admin/send-email" element={<SendEmailPage/>} />
+
+          <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
         <Toaster />
@@ -89,26 +92,4 @@ function App() {
 export default App;
 
 
-{
-  /* <Route path="/products/:keyword" element={<Products/>} /> */
-}
-{
-  /* <Route path="/search" element={<Search/>} />     */
-}
-// <ProtectedRoute exact path="/account" component={Profile} />
-// <Route path="/account" element={<ProtectedRoute element={<Profile />} />}/>
-{
-  /* <Route path="/me/update"   element={<ProtectedRoute element={<UpdateProfile/>}/>}   /> */
-}
 
-{
-  /* {stripeApiKey && (
-      <Route element={<ElementLayout stripe={loadStripe(stripeApiKey)} />} >
-      <Route path="/process/payment" element={<Payment />} />
-      </Route>
-    )} 
-    rzp_test_vHbrgp2hw5L3bw  
-    soCTLJsoOBir0aWxLAOFwA4v
-    */
-}
-  {/* <Route path="/order/:id" element={<OrderDetails/>} /> */}

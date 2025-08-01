@@ -1,124 +1,138 @@
-import React,{Fragment, useEffect} from 'react'
-import {useDispatch,useSelector} from "react-redux";
-import { clearErrors, getAdminProducts,deleteProduct } from '../../actions/productActions'
+import React, { Fragment, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearErrors, getAdminProducts, deleteProduct } from '../../actions/productActions';
 import toast from 'react-hot-toast';
-import { DataGrid } from '@mui/x-data-grid';
+import { MaterialReactTable } from 'material-react-table';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MetaData from '../layouts/MetaData';
 import SideBar from './SideBar';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
-import './productList.css'
 import { DELETE_PRODUCT_RESET } from '../../constants/productConstants';
 
-
 const ProductList = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { error, products } = useSelector((state) => state.products);
+  const { error: deleteError, isDeleted } = useSelector((state) => state.deleteProduct);
 
-const navigate = useNavigate();
-const dispatch = useDispatch();
-const {error,products} = useSelector((state)=> state.products);
-const {error:deleteError,isDeleted} = useSelector((state)=> state.deleteProduct);
-
-useEffect(()=>{
-    if(error){
-        toast.error(error);
-        dispatch(clearErrors());
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      dispatch(clearErrors());
     }
-    if(deleteError){
-        toast.error(deleteError);
-        dispatch(clearErrors());
+    if (deleteError) {
+      toast.error(deleteError);
+      dispatch(clearErrors());
     }
-    if(isDeleted){
-        toast.success("Product Deleted Successfully");
-        navigate("/admin/dashboard");
-        dispatch({type:DELETE_PRODUCT_RESET});
+    if (isDeleted) {
+      toast.success('Product Deleted Successfully');
+      navigate('/admin/dashboard');
+      dispatch({ type: DELETE_PRODUCT_RESET });
     }
     dispatch(getAdminProducts());
-},[dispatch,error,isDeleted,deleteError])
+  }, [dispatch, error, isDeleted, deleteError, navigate]);
 
-const deleteProductHandler=(id)=>{
-    console.log("Inside delete func Deleting this ->",id);
+  const deleteProductHandler = (id) => {
     dispatch(deleteProduct(id));
-}
+  };
 
-const columns=[
-    {field:"id", headerName:"Product ID", minWidth:200,flex:0.5},
+  const columns = [
+    { accessorKey: 'id', header: 'Product ID', size: 200 },
+    { accessorKey: 'name', header: 'Name', size: 350 },
+    { accessorKey: 'stock', header: 'Stock', size: 150 },
+    { accessorKey: 'price', header: 'Price', size: 270 },
     {
-        field: "name",
-        headerName: "Name",
-        minWidth: 350,
-        flex: 1,
-      },
-      {
-        field: "stock",
-        headerName: "Stock",
-        type: "number",
-        minWidth: 150,
-        flex: 0.3,
-      },
-  
-      {
-        field: "price",
-        headerName: "Price",
-        type: "number",
-        minWidth: 270,
-        flex: 0.5,
-      },
-      {
-        field: "actions",
-        flex: 0.3,
-        headerName: "Actions",
-        minWidth: 150,
-        type: "number",
-        sortable:false,
-        renderCell: (params) => {
-            return (
-             <Fragment>
-                 <Link to={`/admin/product/${params.row.id}`}>
-                 <EditIcon />
-              </Link>
-        <Button onClick={()=>{deleteProductHandler(params.row.id)}}>
-            <DeleteIcon />
-             </Button>
-             </Fragment>
-            );
-          },
-      }
-]
-const rows = [];
-console.log("This is the product array -> ")
-console.log(products)
-if(Array.isArray(products)){
-   products.forEach((item)=>{
-    rows.push({
-        id:item._id,
-        stock:item.stock,
-        price:item.price,
-        name:item.name,
-    })
-   }) }
-return (
-    <Fragment>
-    <MetaData title={'ALL Products - ADMIN'} />
-    <div className="flex sm:mt-20 mt-16 h-[125vh]">
-        <SideBar />
-        <div className="flex-1 p-6 bg-gray-100 overflow-x-scroll">
-            <h1 className="text-3xl font-semibold mb-6">ALL PRODUCTS</h1>
-            <div className="bg-white shadow-md rounded-lg p-4">
-                <DataGrid
-                    rows={rows}
-                    columns={columns}
-                    pageSizeOptions={[10]}
-                    disableSelectionOnClick
-                    autoHeight
-                    className="productListTable"
-                />
-            </div>
+      accessorKey: 'actions',
+      header: 'Actions',
+      size: 150,
+      Cell: ({ row }) => (
+        <div className="flex items-center space-x-2">
+          <Link to={`/admin/product/${row.original.id}`}>
+            <EditIcon className="text-blue-500 hover:text-blue-700" />
+          </Link>
+          <Button onClick={() => deleteProductHandler(row.original.id)}>
+            <DeleteIcon className="text-red-500 hover:text-red-700" />
+          </Button>
         </div>
-    </div>
-</Fragment>
-  )
-}
+      ),
+    },
+  ];
 
-export default ProductList
+  const rows = products?.map((item) => ({
+    id: item._id,
+    stock: item.stock,
+    price: item.price,
+    name: item.name,
+  })) || [];
+
+  return (
+    <Fragment>
+      <MetaData title={'ALL Products - ADMIN'} />
+      <div className="flex sm:mt-20 mt-16 ">
+        <SideBar />
+        <div className="flex-1 p-6 bg-[#f3f4f6] border-l border-gray-300 overflow-auto">
+          <h1 className="text-3xl font-semibold mb-6 text-center text-gray-600 transition-all duration-500">ALL PRODUCTS</h1>
+          <div className="bg-white shadow-md rounded-lg p-4 overflow-x-auto">
+            <MaterialReactTable
+              columns={columns}
+              data={rows}
+              enablePagination
+              enableSorting
+              enableColumnResizing
+              layoutMode="grid"
+              initialState={{ pagination: { pageSize: 10 } }}
+              muiTablePaperProps={{
+                elevation: 2,
+                sx: {
+                  overflowX: "auto",
+                  '&::-webkit-scrollbar': { width: '10px' },
+                  '&::-webkit-scrollbar-thumb': { backgroundColor: '#888' },
+                  '&::-webkit-scrollbar-thumb:hover': { backgroundColor: '#555' },
+                  '& .MuiTypography-root': { color: 'black' },
+                },
+              }}
+              muiTableContainerProps={{
+                sx: { width: '100%', minHeight: '500px',
+                  '& .MuiInputBase-input': { color: 'white' },
+                 }, // Ensure full width
+              }}
+              muiTableHeadCellProps={{
+                sx: {
+                  backgroundColor: '#1f2937',
+                  color: '#fff',  
+                  fontSize: '18px',
+                  textAlign: 'center',
+                  '& .MuiTableSortLabel-root': { color: 'white' }, // Sort Icon color
+                  '& .MuiTableSortLabel-icon': { color: 'white' }, // Sort Asc/Desc icon color
+                  '& .MuiIconButton-root': { color: 'white' }, // 3-dot column options menu color
+                  '& .MuiTableSortLabel-icon': { color: 'white !important' },
+                },
+              }}
+              muiTableBodyCellProps={{
+                sx: { textAlign: 'center', fontSize: '15px' }, // Center align content
+              }}
+              // muiTablePaginationProps={{
+              //   sx: {
+              //     backgroundColor: '#fff',
+              //     color: '#000',
+              //     '& .MuiTypography-root': { color: '#000' },
+              //     '& .MuiSelect-select': { color: '#000' },
+              //     '& .MuiSvgIcon-root': { color: '#000' },
+              //   },
+              // }}
+              muiTableProps={{
+                sx: {
+                  '& .MuiTableRow-hover:hover': { backgroundColor: 'rgba(0, 0, 0, 0.08)' },
+                },
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    </Fragment>
+  );
+};
+
+export default ProductList;

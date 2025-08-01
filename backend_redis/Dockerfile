@@ -8,4 +8,4 @@ RUN npm install
 
 EXPOSE 4000
 # Run this command when the container launches
-CMD [ "npm","run","node" ]
+CMD [ "npm","run","node"]  

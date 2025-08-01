@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { clearErrors, getOrderDetails } from "../../actions/orderAction";
@@ -7,6 +7,7 @@ import Loader from "../layouts/loader/Loader";
 import MetaData from "../layouts/MetaData";
 import { Typography } from "@mui/material";
 import './orderDetails.css'
+import orderAnimation from "../../assets/images/orderDetails.jpeg"
 
 const OrderDetails = () => {
   const { id } = useParams();
@@ -29,7 +30,8 @@ const OrderDetails = () => {
         <Fragment>
           <MetaData title="Order Details" />
           <div className="orderDetailsPage">
-            <div className="orderDetailsContainer">
+            <div className="flex justify-between">
+              <div className="orderDetailsContainer">
               <Typography component="h1">
                 Order #{order && order._id}
               </Typography>
@@ -89,6 +91,8 @@ const OrderDetails = () => {
                   </p>
                 </div>
               </div>
+            </div>
+            <img src={orderAnimation} className="w-[50vw] mt-32 h-[60vh] sm:hidden md:block" loading="lazy"/>
             </div>
 
             <div className="orderDetailsCartItems">

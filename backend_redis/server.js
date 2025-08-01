@@ -70,11 +70,11 @@ redisClient.on('error',(error)=>{
     // console.error("Redis Client connection error",error);
 })
 
-// Initialize Razorpay
 export const instance = new Razorpay({
     key_id: process.env.RAZORPAY_API_KEY,
     key_secret: process.env.RAZORPAY_API_SECRET,
 });
 
-// Connect to the database
 connectDB();
+
+

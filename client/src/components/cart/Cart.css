@@ -1,7 +1,7 @@
 .cartPage{
     padding:5vmax;
     padding-top:10vh ;
-    height:100vh;
+    min-height:100vh;
 }
 .cHeading{
     display:block;

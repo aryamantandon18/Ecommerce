@@ -21,8 +21,37 @@ import {ALL_PRODUCT_FAIL,ALL_PRODUCT_REQUEST,ALL_PRODUCT_SUCCESS, CLEAR_ERRORS,
     UPDATE_PRODUCT_REQUEST,
     UPDATE_PRODUCT_SUCCESS,
     UPDATE_PRODUCT_RESET,
+    FEATURED_PRODUCTS_REQUEST,
+    FEATURED_PRODUCTS_SUCCESS,
+    FEATURED_PRODUCTS_FAIL,
 } from '../constants/productConstants.js'
 
+export const featuredProductsReducer = (state = {featuredProducts:[]},action)=>{
+    switch(action.type){
+        case FEATURED_PRODUCTS_REQUEST:
+            return{
+                loading:true,
+                featuredProducts:[],
+            }
+        case FEATURED_PRODUCTS_SUCCESS:
+                return{
+                    loading:false,
+                    featuredProducts:action.payload,
+                }    
+        case FEATURED_PRODUCTS_FAIL:
+            return{
+                loading:false,
+                error:action.payload,
+            }
+        case CLEAR_ERRORS:
+            return{
+                ...state,
+                error:null,
+            }
+        default:
+            return state;
+    }
+}
 // in reducer we bring data from backend on the basis of the request status which is handled by in actions
 export const productReducer =(state ={products:[]} , action)=>{
 switch (action.type) {
@@ -132,6 +161,7 @@ export const newReviewReducer = (state={},action)=>{
             }
         case NEW_REVIEW_SUCCESS:
             return {
+                ...state,
                 loading:false,
                 success:action.payload,
             }    
@@ -170,7 +200,7 @@ export const deleteProduct=(state={},action)=>{
                 loading:false,
                 isDeleted:action.payload,
             }
-        case DELETE_PRODUCT_SUCCESS:
+        case UPDATE_PRODUCT_SUCCESS:
              return{
                     ...state,
                     loading:false,

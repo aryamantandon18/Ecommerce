@@ -59,18 +59,18 @@ export const paymentVerification_old = asyncHandler(async(req,res,next)=>{
 })
 
 export const paymentVerification = asyncHandler(async(req,res,next)=>{
-  const {razorpay_order_id,razorpay_payment_id,razorpay_signature,amount,subTotal} = req.body;
-
-  if(amount !== subTotal){
+  const {razorpay_order_id,razorpay_payment_id,razorpay_signature,amount,totalPrice} = req.body;
+  console.log("Line 63 - ",req.body);
+  if((amount/100) !== totalPrice){
     return res.status(400).json({success:false,message:"Amount missmatch"})
   }
-  const generate_signature = crypto.createHash('sha256',process.env.RAZORPAY_API_SECRET)
+  const generate_signature = crypto.createHmac('sha256',process.env.RAZORPAY_API_SECRET)
   .update(`${razorpay_order_id}|${razorpay_payment_id}`)
   .digest('hex')
-
+  
   if(generate_signature === razorpay_signature){
     res.status(200).json({success:true,message:'Payment Verified Successfully'})
   }else{
-    res.status(500).json({success:false,message:"Payment Verification Failed"})
-  }
+    res.status(400).json({success:false,message:"Payment Verification Failed"})
+  } 
 })

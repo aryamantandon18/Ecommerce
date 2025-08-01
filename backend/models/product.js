@@ -30,6 +30,12 @@ const productSchema = mongoose.Schema({
             }
         }
     ],
+    videos:[
+        {   
+            public_id:{type: String},
+            src:{type: String}
+        }
+    ],
     category:{
         type:String,
         required:[true,"Please enter the product category"]
@@ -45,7 +51,7 @@ const productSchema = mongoose.Schema({
     },
     reviews:[
         {
-            user:{
+        user:{
                 type:mongoose.Schema.ObjectId,
                 ref:"user",
                 required:true,
@@ -61,7 +67,11 @@ const productSchema = mongoose.Schema({
         comment:{
             type:String,
             required:true
-        }
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now,  // ✅ Automatically set review creation date
+        },
 } ],   
     user:{
         type:mongoose.Schema.ObjectId,

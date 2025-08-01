@@ -29,6 +29,7 @@ export const clearErrors=() =>async(dispatch)=>{
 
 export const register=(userData)=>async(dispatch)=>{
 try {
+    console.log("Line 32 - ",userData);
     dispatch({type:REGISTER_USER_REQUEST})
 
     const config = { headers:{"Content-Type":"multipart/form-data"},

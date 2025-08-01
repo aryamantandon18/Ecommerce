@@ -1,28 +1,4 @@
-.p-wrapper{
-  display: flex;
-  flex-direction: column;
-  transform:translateY(85px);
-  overflow-x: hidden;
-}
 
-.productsHeading {
-    margin: 1vmax auto;
-    width: 13vw;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.171);
-    padding: 1vmax;
-    color: rgba(0, 0, 0, 0.678);
-    font: 600 1.5vmax "Roboto";
-    text-align: center;
-  }
-  
-  .products {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0 13vmax;
-    justify-content: center;
-    min-height: 30vh;
-    transform: translateX(60px);
-  }
   .paginationBox{
     display:flex;
     justify-content: center;
@@ -68,53 +44,9 @@
   color: white;
 }
 
-.filterBox{
-  width: 10vmax;
-  position: absolute;
-  top:10vmax;
-  left: 4vmax;
-}
-
-.filterBox > fieldset {
-  border: 0px solid rgba(0, 0, 0, 0.329);
-}
-.categoryBox {
-  padding: 0%;
-}
-
-.category-link {
-  list-style: none;
-  color: rgba(0, 0, 0, 0.61);
-  font: 400 0.8vmax "Roboto";
-  margin: 0.4vmax;
-  cursor: pointer;
-  transition: all 0.5s;
-}
-.category-link:hover {
-  color: tomato;
-}
-
 @media screen and (max-width: 600px) {
-  .filterBox {
-    width: 20vmax;
-    position: static;
-    margin: 100px auto;
-  }
 
   .page-link {
     font: 300 1.7vmax "Roboto";
-  }
-  .category-link {
-    font: 400 1.8vmax "Roboto";
-  }
-  .productsHeading{
-    margin: 10px auto;
-    font: 800 2vmax "Roboto";
-    border-bottom: 1px solid rgba(0, 0, 0, 0.171);
-    width: 12vmax;
-  }
-  .products{
-    transform: translateX(0px);
-    padding: 0 6vmax;
   }
 }

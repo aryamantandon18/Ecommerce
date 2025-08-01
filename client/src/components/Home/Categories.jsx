@@ -50,7 +50,7 @@ const catNav = [
 
 const Categories = () => {
     return (
-        <section className="hidden sm:block bg-white p-0 min-w-full px-12 shadow overflow-hidden">
+        <section className="overflow-x-auto bg-white p-0 min-w-full px-1 pt-3 sm:pt-0 sm:px-12 shadow overflow-hidden scrollbar-none">
             <div className="flex items-center justify-between group">
                 {catNav.map((item, i) => (
                     <Link
@@ -58,7 +58,7 @@ const Categories = () => {
                         className="flex flex-col gap-1 items-center p-2"
                         key={i}
                     >
-                        <div className="h-20 w-20 ">
+                        <div className="sm:h-20 sm:w-20 h-10 w-10">
                             <img
                                 draggable="false"
                                 className="h-full w-full object-contain"
@@ -66,8 +66,8 @@ const Categories = () => {
                                 alt={item.name}
                             />
                         </div>
-                        <span className="text-sm text-gray-800 font-medium group-hover:text-primary-blue">
-                            {item.name}
+                        <span className="text-xs sm:text-sm text-gray-800 font-medium group-hover:text-primary-blue">
+                            {item.name.slice(0,11)}
                         </span>
                     </Link>
                 ))}

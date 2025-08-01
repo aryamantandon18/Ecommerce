@@ -47,7 +47,7 @@ const schema = new mongoose.Schema({
 })
 
 // Middleware to remove reviews from products when a user is deleted
-schema.pre('remove', async function (next) {
+schema.pre('remove', async function (next){
     try {
       // Find products that contain reviews by this user and remove those reviews
       await Product.updateMany(
@@ -60,7 +60,7 @@ schema.pre('remove', async function (next) {
     }
   });
 
-schema.pre("save", async function (next) {
+schema.pre("save", async function (next){
     if (!this.isModified("password")) {
       next();
     }
@@ -79,5 +79,19 @@ this.resetPasswordToken = crypto
 this.resetPasswordExpire = Date.now() + 15*60*1000;
 return resetToken;
 }
+
+// Query middleware
+schema.pre(/^find/, function(next) {
+  // This runs before any find query
+  this.start = Date.now();
+  next();
+});
+
+schema.post(/^find/, function(docs, next) {
+  // This runs after any find query
+  console.log(`Query took ${Date.now() - this.start}ms`);
+  next();
+});
+
 export const Users = mongoose.model("user",schema);
 

@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 // import Carousel from 'react-material-ui-carousel';
 import {useSelector, useDispatch } from 'react-redux';
 import { getProductDetails, newReview } from '../../actions/productActions'
@@ -23,6 +23,8 @@ import { IoPricetagOutline } from "react-icons/io5";
 const ProductDetails = () => {
     const {id} = useParams();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const {isAuthenticated} = useSelector((state)=>state.user);
     const {product,loading,error} = useSelector((state) => state.productDetails);  //to pull data from the redux store.(from the reducer)
     const {success,error:reviewError} = useSelector((state)=>state.newReview); //extracting error from newReview as reviewError so that it does not confuse with the error of productDetails
     const [quantity, setQuantity] = useState(1);
@@ -30,7 +32,9 @@ const ProductDetails = () => {
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
     const [productImage,setProductImage] = useState("");
+    const [productVideos,setProductVideos] = useState("");
     const [popup,setPopup] = useState(false);
+    const [showVideos,setShowVideos] = useState(false);
     const increaseQuantity = () => {
         if (product.stock <= quantity) return;
     
@@ -62,30 +66,36 @@ const ProductDetails = () => {
         setOpen(false);
       }
       const addToCartHandler=()=>{
+        if(!isAuthenticated){
+          navigate("/login");
+          return;
+        }
         dispatch(addItemsToCart(id,quantity));
         toast.success("Item Added To Cart ");
       } 
+
+      useEffect(() => {
+        if (success) {
+          toast.success("Review submitted Successfully");
+          dispatch(getProductDetails(id)); 
+          dispatch({ type: NEW_REVIEW_RESET });
+        }
+      }, [success]); 
      
     useEffect(()=>{
-      if(error){
-        toast.error(error);
+      if(error || reviewError){
+        toast.error(error || reviewError);
         dispatch(clearErrors());
+        dispatch(getProductDetails(id));
       }
-      if(reviewError){
-        toast.error(reviewError);
-        dispatch(clearErrors());
-      }
-      if(success){
-        toast.success("Review submitted Successfully");
-        dispatch({type:NEW_REVIEW_RESET});
-      }
+      //like in backend we use req.params.id to access the product is 
+    },[error,success,reviewError,product])
 
-                  //like in backend we use req.params.id to access the product is 
-    },[dispatch,error,success,reviewError,product])
+
 
     const options={
       size: "large",
-    value: product.rating,
+    value: product.rating || 0,
     readOnly: true,
     precision: 0.5,
     }
@@ -93,9 +103,12 @@ const ProductDetails = () => {
     useEffect(()=>{
       dispatch(getProductDetails(id)); 
     },[id])
+
     useEffect(()=>{
       if(product?.images) setProductImage(product?.images[0]);
-    },[product,dispatch])
+    },[product])
+
+    
   return ( 
 <Fragment>
     {loading?(<Loader/>):error?(toast.error(error.message))
@@ -103,7 +116,8 @@ const ProductDetails = () => {
   <Fragment>       
    <div className='ProductDetails'>
     <div>
-      <Carousel showStatus={false} showArrows={true} infiniteLoop={false}   showThumbs={true} className='lg:hidden'>
+      <Carousel showStatus={false} showArrows={true} infiniteLoop={false} showThumbs={true} className='lg:hidden w-[90vw] ' 
+      >
           {
               product.images && 
               product.images.map((item,i)=>(
@@ -114,18 +128,49 @@ const ProductDetails = () => {
                   />
               ))
           }
+          {/* {
+            product?.videos && Array.isArray(product.videos) && product.videos.length > 0 &&
+            product.videos.map((item,i)=>(
+              <video key={i} className='CarouselImage' style={{position:'relative'}} controls>
+                <source src={item.src} type='video/mp4'/>
+              </video>
+            ))
+          } */}
       </Carousel>  
     {
-      productImage?.url ?(
+      productImage?.url ||  product?.videos  ?(
         <div className='flex'> 
-        <div className="lg:flex flex-col gap-4 mr-4 mt-0.5 hidden">
+        {/* Images */}
+        <div className="lg:flex flex-col gap-4 mr-4 mt-0.5 hidden h-[60vh] pr-2 overflow-y-auto scrollbar-thin scrollbar-track-slate-600">
         {product && product.images.map((imageObj,index)=>(
-           <img key={index} src={imageObj.url} className="w-[60px] h-[60px] border-[0.7px] border-gray-700 rounded-lg hover:shadow-image focus:shadow-image active:shadow-image" 
-           onClick={()=> setProductImage(imageObj)}
+           <img key={index} src={imageObj.url} alt="Product" className="w-[60px] h-[60px] border-[0.7px] border-gray-700 rounded-lg hover:shadow-image focus:shadow-image active:shadow-image" 
+           onClick={()=> {setProductImage(imageObj); setShowVideos(false);}}
            />
         ))}
+          {product && product.videos?.map((videoObj, index) => (
+          <video
+            key={index}
+            className="w-[60px] h-[60px] border-[0.7px] border-gray-700 rounded-lg hover:shadow-image focus:shadow-image active:shadow-image"
+            onClick={() => {setProductVideos(videoObj); setShowVideos(true)}}
+          >
+            <source src={videoObj.src} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        ))}
         </div>
-        <div className="hidden lg:flex flex-col gap-2.5 w-[400px]">
+      {/* Videos */}
+      {showVideos ? (
+                productVideos  && (
+                  <video
+                  className='max-w-[90%] h-[440px]'
+                  controls 
+                >
+                  <source src={productVideos.src} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+      )
+      ):(
+        <div className="hidden lg:flex flex-col gap-2.5 w-[400px] mt-0.5 z-40">
         <div onClick={() => setPopup(true)}>
           <div className='flex'>
             <CustomImageMagnifier src={productImage?.url} alt="productImage" />
@@ -142,8 +187,10 @@ const ProductDetails = () => {
           </div>
         )}
       </div>
+      )
+    }
       </div>
-      ):("No product Image")
+      ):("No product Image & Videos")
     }
     </div> 
 <div>                                                  {/* Second main div  */}
@@ -158,11 +205,13 @@ const ProductDetails = () => {
     <span> ({product.numOfReviews} Reviews )</span>
     </div>
     <div className='detailsBlock-3'>
+    
     <h1>{`₹${product.price}`}</h1>
+    
     <div className='detailsBlock-3-1'>
       <div className='detailsBlock-3-1-1'>
         <button onClick={decreaseQuantity}>-</button>
-        <input readOnly type='number' value={quantity} />
+        <input readOnly type='number' value={quantity}/>
         <button onClick={increaseQuantity}>+</button>
       </div>
       <button disabled={product.stock<1 ? true: false} onClick={addToCartHandler}>Add to Cart</button>
@@ -174,14 +223,12 @@ const ProductDetails = () => {
       </b>
     </p>
     </div>    
-         <div className='detailsBlock-4'>
+    <div className='detailsBlock-4'>
           Description: <p>{product.description}</p>
-         </div>
-          <button className='submitReview' onClick={SubmitReviewToggle}>Submit Review</button> {/*  Second main div          */}
-          <div className='select-none cursor-pointer'>
-      <span className="text-md font-segoe font-semibold text-heading">
-                Offers
-              </span>
+    </div>
+    <button className='submitReview' onClick={SubmitReviewToggle}>Submit Review</button> {/*  Second main div          */}
+    <div className='select-none cursor-pointer'>
+    <span className="text-md font-segoe font-semibold text-heading"> Offers</span>
               <ul className="flex flex-col gap-1">
                 <li className="text-sm text-green-700 font-semibold font-segoe flex gap-2 tracking-wide items-center">
                   <IoPricetagOutline color="black" /> Order  and get upto 10%
@@ -230,11 +277,11 @@ const ProductDetails = () => {
 
       </Dialog>
       {product.reviews && product.reviews[0] ?(
-        <div className='reviews'> 
+        <div className='reviews sm:mb-10 mb-5'> 
         {product.reviews && product.reviews.map( (review)=> <ReviewCard review={review}/>) }
         </div>
       ) : (
-        <p className='noReviews'>No Reviews Yet</p>
+        <p className='noReviews sm:mb-20 mb-10'>No Reviews Yet</p>
       )}
    
     </Fragment>

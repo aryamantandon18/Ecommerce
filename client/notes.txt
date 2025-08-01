@@ -2,5 +2,17 @@
 docker build -t ecmm_frontend .
 docker network create ecmm_network
 docker network inspect ecmm_network   // to get the details of this ecmm_network
-docker run -d -p 3000:3000 --net ecmm_network --name ecmm_front ecmm_frontend 
+docker run -d -p 3000:3000 --net ecmm_network --name ecmm_front ecmm_frontend    (ecmm_front is container's name)
+
+-------------------------------
+we do not need common docker network if we are exposing ports to the localhost browser 
+
+| Scenario                                                   | Need Docker Network?    |
+| ---------------------------------------------------------- | ----------------------- |
+| Frontend fetches from `localhost:4000` (on host)           | ❌ No                    |
+| Frontend container fetches from backend container directly | ✅ Yes                   |
+| Using `docker-compose`                                     | ✅ Automatically created |
+
+- In your frontend code, instead of making requests to localhost, use the container name ecmm_backend:
+fetch("http://ecmm_backend:4000/api/...") (IN THIS CASE we need the common docker network so that both the containers can talk to each other)
 

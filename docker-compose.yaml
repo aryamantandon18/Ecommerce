@@ -1,4 +1,3 @@
-version: "3.8"
 name: ecmm
 services:
 
@@ -14,6 +13,15 @@ services:
       - 4000:4000
     networks:
       - dock_mern
+    depends_on:
+      - kafka
+      - zookeeper  
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/healthcheck"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s  
 
   client:
     image: ecmm_frontend
@@ -33,8 +41,37 @@ services:
     ports: 
       - "6379:6379"
     networks:
-      - docker_mern
-        
+      - dock_mern
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: ecmm_zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    networks:
+      - dock_mern
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: ecmm_kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+    depends_on:
+      - zookeeper
+    networks:
+      - dock_mern
+
 networks:
   dock_mern:
     driver: bridge  # This defines the default network driver

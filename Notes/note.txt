@@ -63,7 +63,20 @@ Excited to discuss the development journey and explore potential collaborations!
     ]);
     validation.setFieldValue("tieredPricing", tieredpricingCat);
   };
-
+------------------------------------------------------------------------------------
+After running docker-compose up and waiting for services to start:
+curl localhost:4000/healthcheck
+Healthy Response (200 OK):
+{
+  "uptime": 125.67,
+  "message": "OK",
+  "timestamp": 1620000000000,
+  "checks": {
+    "kafka": "healthy",
+    "database": "healthy",
+    "redis": "healthy"
+  }
+}
   ______________________________________________________________________________________________________________
 
 https://nodejs-todoapp-yor3.onrender.com/task/my
@@ -103,6 +116,23 @@ redis-cli
 set name aryaman //OK
 get name //"aryaman"
 
+-------------------Edit admin Review-----------------
+Query:
+
+{ 'reviews._id': new mongoose.Types.ObjectId(reviewId) }:
+
+This query finds the product where the reviews array contains a review with the specified _id.
+
+Update:
+
+$set: { 'reviews.$.rating': rating, 'reviews.$.comment': comment }:
+
+The $ operator refers to the specific review in the reviews array that matched the query.
+
+reviews.$.rating updates the rating field of the matched review.
+
+reviews.$.comment updates the comment field of the matched review.
+
 -----------------------------------dockerfile - backend-----------------------------------
 docker build -t ecmm_backend .     // creating a docker image named ecmm_backend and this " . " represents the path of the docker file , which is in the current directory here if we are in backend folder
 
@@ -111,8 +141,36 @@ docker run -d -p 4000:4000 --net ecmm_network --env-file ./data/config.env --nam
 
 docker compose up -d  // or we can use docker compose -f path_to_docker-compose.yaml_file up -d 
 docker compose down
+------------------------------------------------------------
+
+in multer : 
+ Breakdown of cb(null, true)
+cb: This is the callback function that Multer provides.
+The first argument is an error (if any). If there's no error, pass null.
+The second argument is a boolean:
+true: Accept the file
+false: Reject the file
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    cb(null, true); // accept only JPEG or PNG files
+  } else {
+    cb(null, false); // reject other file types
+  }
+};
 
 
+
+
+
+
+
+
+start.sh
+cd backend && npm run dev & 
+cd ../client && npm start
+
+---------------------------------------------------------------------
 version: "3.8"
 name: ecmm
 services:
@@ -160,3 +218,81 @@ volumes:
 
 networks:
   dock_mern:
+
+
+
+export const deleteReviews = asyncHandler(async(req,res,next)=>{
+
+   const product = await Product.findById(req.query.productId);
+   if(!product){
+      return next(new ErrorHandler("Product not found",404));
+   }
+   const reviews = product.reviews.filter(
+      (rev) => rev._id.toString() !== req.query.id.toString()
+    );
+
+let avg = 0;
+
+product.reviews.forEach((rev) => {
+   avg = avg + rev.rating;
+})
+
+const newRating = avg/product.reviews.length;
+
+const numOfReviews = product.reviews.length;
+
+await Product.findByIdAndUpdate(req.query.productId,{
+   reviews,
+   rating : newRating,
+   numOfReviews ,
+},{ new:true,
+   runValidators:true,
+   useFindAndModify: false, })
+
+   res.status(200).json({
+      success:true,
+     })
+})
+
+export const getReviewsByUserId = asyncHandler(async(req,res)=>{
+  const {userId} = req.params;
+  try {
+    const reviews = await Product.aggregate([
+      {
+        $match:{'reviews.user' :  new mongoose.Types.ObjectId(userId)}
+      },{
+        $unwind: '$reviews'
+      },{
+        $match:{'reviews.user':  new mongoose.Types.ObjectId(userId)}
+      },{
+        $project:{
+          productId:'$_id',
+          reviews:'$reviews'
+        }
+      }
+    ]);
+
+    if(reviews.length === 0){
+      return res.status(404).json({
+        message:"No reviews for this user"
+      })
+    }
+
+    return res.status(200).json(reviews)  
+
+  } catch (error) {
+    console.error("Line 270 in the productController",error);
+    return res.status(500).json({message:"Internal Server Error"})
+  }
+});
+
+export const getAllReviews = asyncHandler(async(req,res,next)=>{
+   const product = await Product.findById(req.query.productId);
+   if(!product){
+      return next(new ErrorHandler("Product not found",404));
+   }
+   res.status(200).json({
+      success:true,
+      reviews: product.reviews,
+     })
+})

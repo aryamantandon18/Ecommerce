@@ -3,10 +3,10 @@
     background-color: rgb(255, 255, 255);
     width: 100vw;
     max-width: 100%;
-    padding: 5vmax;
+    padding: 3vmax;
     box-sizing: border-box;
     display: flex;
-    padding:11vh;
+    padding-top:10vh;
   }
   
   .ProductDetails > div {
@@ -81,7 +81,8 @@
   }
   .detailsBlock-3-1-1>input{
     border:none;
-    padding:0.5vmax;
+    padding:0px;
+    padding-left: 11px;
     outline: none;
     width: 2vmax;
    color: rgba(0,0,0,.8);
@@ -116,11 +117,13 @@
 }
 .detailsBlock-4 {
   color: rgba(0, 0, 0, 0.897);
-  font: 500 1.2vmax sans-serif;
+  font: 500 1vmax sans-serif;
+  width:70%;
 }
 .detailsBlock-4 > p {
   color: rgba(0, 0, 0, 0.8);
   font: 300 0.8vmax sans-serif;
+  margin-top: 3px;
 }
 .submitReview {
   border: none;
@@ -196,24 +199,28 @@
 }
 
 
-@media screen and (max-width: 600px) {
+
+@media screen and (max-width: 720px) {
   .ProductDetails {
     flex-direction: column;
     height: unset;
+    width: 100%;
   }
 
   .ProductDetails > div:last-child {
     align-items: center;
+    width: 100%;
   }
 
   .detailsBlock-1 > h2 {
-    font-size: 2.8vmax;
+    font-size: 4vmax;
     text-align: center;
   }
 
   .detailsBlock-1 > p {
     text-align: center;
     font-size: 1vmax;
+    padding-bottom: 3px;
   }
 
   .detailsBlock-2 {
@@ -236,20 +243,21 @@
     padding: 2vmax 0;
   }
   .detailsBlock-3-1-1 > button {
-    padding: 1.2vmax;
     width: 4vmax;
   }
 
   .detailsBlock-3-1-1 > input {
-    padding: 1.5vmax;
-    width: 3vmax;
+    padding: 0px;
+    padding-left: 11px;
+    margin: auto;
+    width: 5vmax;
     font: 400 1.8vmax "Roboto";
   }
 
   .detailsBlock-3-1 > button:last-child {
     font: 500 1.7vmax "Roboto";
-    padding: 1.5vmax;
-    width: 20vmax;
+    padding: 1.2vmax;
+    width: 16vmax;
     margin: 3vmax 0;
   }
 
@@ -260,7 +268,7 @@
   }
 
   .detailsBlock-4 {
-    font: 500 2.5vmax sans-serif;
+    font: 500 2.2vmax sans-serif;
   }
 
   .detailsBlock-4 > p {
@@ -269,8 +277,8 @@
 
   .submitReview {
     font: 500 1.7vmax "Roboto";
-    padding: 1.5vmax;
-    width: 20vmax;
+    padding: 1.2vmax;
+    width: 16vmax;
     margin: 3vmax 0;
   }
 

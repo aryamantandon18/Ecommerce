@@ -8,18 +8,12 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import DescriptionIcon from '@mui/icons-material/Description';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import StorageIcon from '@mui/icons-material/Storage';
-// import {
-//   FormHelperText,
-//   Grid,
-//   Input,
-//   InputLabel,
-//   TextField,
-// } from "@mui/material";
 import toast from "react-hot-toast";
 import { clearErrors, getProductDetails, updateProduct } from "../../actions/productActions";
 import { useNavigate, useParams } from "react-router-dom";
 import {UPDATE_PRODUCT_RESET} from "../../constants/productConstants";
 import { Button } from "@mui/material";
+import { AddPhotoAlternate, VideoLibrary } from "@mui/icons-material";
 
 const UpdateProduct = () => {
     const {id} = useParams();
@@ -32,7 +26,7 @@ const UpdateProduct = () => {
   const [stock, setStock] = useState(0);
   const [images, setImages] = useState([]);
   const [oldImages,setOldImages] = useState([]);
-  const [imagesPreview, setImagesPreview] = useState([]);
+  const [videos,setVideos] = useState([]);
   const navigate = useNavigate();
 
   const {error,product} = useSelector(state=>state.productDetails)
@@ -72,12 +66,7 @@ const UpdateProduct = () => {
         toast.error(error);
         dispatch(clearErrors());
     }
-    if(isUpdated){
-        toast.success("Product updated Successfully");
-        navigate("/admin/products");
-        dispatch({type:UPDATE_PRODUCT_RESET})
-    }
-  },[dispatch,updateError,updateError,error,product,id,navigate])
+  },[dispatch,isUpdated,updateError,error,product,id,navigate])
 
   const updateProductSubmitHandler=(e)=>{
     e.preventDefault();
@@ -90,35 +79,59 @@ const UpdateProduct = () => {
     myForm.set("stock",stock);
     myForm.set("category",category)
 
-    images.forEach((image)=>(
-        myForm.append("images",image)
-    ))
+    images.forEach((image)=> myForm.append("images",image))
+
+    videos.forEach((video)=> myForm.append("videos",video));
+    
+    // for (const [key, value] of myForm.entries()) {
+    //   console.log(`${key}:`, value);
+    // }
 
     dispatch(updateProduct({id,productData:myForm}));
   }
 
-  const updateProductImagesChange=(e)=>{
-    const files = Array.from(e.target.files);
-    setImages([]);
-    setImagesPreview([]);
-    setOldImages([]);
-
-    files.forEach((file)=>{
-        const reader = new FileReader();
-
-        reader.onload=()=>{
-            if(reader.readyState===2){
-                setImages((old)=>[...old,reader.result]);
-                setImagesPreview((old)=>[...old,reader.result]);
-            }
-        }
-        reader.readAsDataURL(file);
-    })
+  useEffect(()=>{
+    if(isUpdated){
+      toast.success("Product updated Successfully");
+      navigate("/admin/products");
+      dispatch({type:UPDATE_PRODUCT_RESET})
   }
+  },[isUpdated])
+
+  // const updateProductImagesChange=(e)=>{
+  //   const files = Array.from(e.target.files);
+  //   setImages([]);
+  //   setImagesPreview([]);
+  //   setOldImages([]);
+
+  //   files.forEach((file)=>{
+  //       const reader = new FileReader();
+
+  //       reader.onload=()=>{
+  //           if(reader.readyState===2){
+  //               setImages((old)=>[...old,reader.result]);
+  //               setImagesPreview((old)=>[...old,reader.result]);
+  //           }
+  //       }
+  //       reader.readAsDataURL(file);
+  //   })
+  // }
+
+  const updateProductImagesChange =(e)=>{
+    const files = Array.from(e.target.files);
+    setOldImages([]);
+    setImages(files);
+  }
+
+  const updateProductVideoChange = (e)=>{
+    const files = Array.from(e.target.files);
+    setVideos(files);
+  }
+
   return (
     <Fragment>
     <MetaData title="Update Product" />
-    <div className="dashboard">
+    <div className="flex mt-16 sm:mt-20 h-[125vh] bg-[#DDDDDD]">
       <SideBar />
       <div className="newProductContainer">
         <form
@@ -176,26 +189,82 @@ const UpdateProduct = () => {
                 onChange={(e) => setStock(e.target.value)}
               />
             </div>
-            <div id="createProductFormFile">
+            <div className="flex gap-4 my-4">
+              <Button
+                variant="outlined"
+                component="label"
+                startIcon={<AddPhotoAlternate/>}
+                // className="flex-1"
+                sx={{
+                  fontSize: {
+                    xs: "0.65rem", // Smaller text on mobile
+                    sm: "0.875rem", 
+                  },
+                  flex:"1",
+                  padding: {
+                    xs: "6px 8px", // Smaller padding on mobile
+                    sm: "12px 16px", 
+                  },
+                }}
+              >
+                Choose Images
               <input
                 type="file"
                 name="avatar"
+                hidden
                 accept="image/*"
                 onChange={updateProductImagesChange}
                 multiple
               />
+              </Button>
+              <Button
+                variant="outlined"
+                color="success"
+                component="label"
+                startIcon={<VideoLibrary/>}
+                sx={{
+                  fontSize: {
+                    xs: "0.65rem", // Smaller text on mobile
+                    sm: "0.875rem", 
+                  },
+                  flex:"1",
+                  padding: {
+                    xs: "6px 8px", // Smaller padding on mobile
+                    sm: "12px 16px", 
+                  },
+                }}
+              >
+                Choose Videos
+              <input
+                type="file"
+                name="videos"
+                accept="video/*"
+                hidden
+                onChange={updateProductVideoChange}
+                multiple
+              />
+              </Button>
             </div>
-            <div id="createProductFormImage">
+            <div className="flex gap-2 overflow-x-auto mt-2 md:mt-4 overflow-y-hidden">
               {oldImages && oldImages.map((image, index) => (
-                <img key={index} src={image.url} alt="Product Preview" />
+                <img key={index} src={image.url} alt="Product Preview" className="md:w-16 md:h-16 w-10 h-10  object-cover" />
               ))}
             </div>
 
-             <div id="createProductFormImage">
-              {imagesPreview.map((image, index) => (
-                <img key={index} src={image} alt="Product Preview" />
+             <div className="flex gap-2 overflow-x-auto md:mt-4 overflow-y-hidden">
+              {images?.map((image, index) => (
+                <img key={index} src={URL.createObjectURL(image)} alt="Product Preview" className="md:w-16 md:h-16 w-10 h-10  object-cover"/>
               ))}
             </div>
+
+              <div className="flex gap-2 overflow-x-auto mt-2 md:mt-4 mb-3 overflow-y-hidden">
+              {videos?.map((video, index) => (
+                <video key={index} className="md:w-16 md:h-16 w-10 h-10 object-cover">
+                  <source src={URL.createObjectURL(video)} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              ))}
+              </div>
 
             <Button
             id="createProductBtn"

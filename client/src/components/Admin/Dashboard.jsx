@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
-import Sidebar from './SideBar.js'
+import Sidebar from './SideBar.jsx'
 import { Link } from 'react-router-dom'
-import { Typography } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAdminProducts } from '../../actions/productActions.js'
 import { getAllOrders } from '../../actions/orderAction.js'
@@ -80,10 +79,10 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-100 sm:mt-20 mt-16">
+    <div className="flex min-h-screen bg-gray-100 sm:mt-[70px] mt-16">
       <Sidebar />
       <div className="flex-1 p-6">
-        <Typography component="h1" className="text-4xl font-bold mb-6">Dashboard</Typography>
+        <div className="md:text-4xl text-xl font-semibold md:font-bold mb-3 md:mb-6">Dashboard</div>
 
         <div className="bg-white p-4 shadow rounded-lg mb-6">
           <p className="text-lg font-semibold">

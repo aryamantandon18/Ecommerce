@@ -1,54 +1,98 @@
-E-Commerce Website Project Report
+# 🛒 ShopBazar: Full-Stack E-commerce Platform
 
-Project Title: E-Commerce Website
+![Node.js](https://img.shields.io/badge/Node.js-18.x-green?logo=node.js)
+![React](https://img.shields.io/badge/React-18.x-blue?logo=react)
+![MongoDB](https://img.shields.io/badge/MongoDB-6.x-brightgreen?logo=mongodb)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.x-cyan?logo=tailwind-css)
+![Redis](https://img.shields.io/badge/Redis-7.x-red?logo=redis)
+![Docker](https://img.shields.io/badge/Docker-containerized-blue?logo=docker)
 
-Developer: Aryaman Tandon
+---
 
-Project Description:
-The project is a full-featured e-commerce website designed to provide a seamless shopping experience to users while offering robust administrative controls for managing products, users, reviews, and orders. The platform incorporates modern technologies to ensure scalability, performance optimization, and security.
+## 🚀 Overview
 
-Key Functionalities:
+**ShopBazar** is a modern, production-ready E-commerce platform built with the MERN stack and Dockerized for seamless deployment. It offers secure JWT-based authentication with role-based access control, integrated payments via Razorpay, advanced admin dashboard functionalities, and efficient media delivery through Cloudinary.
 
-User Authentication: Implemented JWT-based authentication with tokens securely stored in cookies.
+---
 
-Role-Based Access Control: Two user roles:
+## ✨ Features
 
-User: Can browse products, add them to the cart, submit reviews, and complete purchases.
+- **JWT Authentication** with Role-Based Access (User/Admin)
+- **Product Management** (CRUD for Admin)
+- **Cart & Checkout** with Razorpay Payment Gateway
+- **Order Management** with Tracking
+- **Review System** with Ratings & Comments
+- **Admin Dashboard** with Graphs & Metrics
+- **Image/Video Uploads** via Cloudinary CDN
+- **Redis Caching** for Performance Optimization
+- **Dockerized Deployment** for Scalability
 
-Admin: Access to a dedicated dashboard with CRUD operations on products, reviews, orders, and users.
+---
 
-Product Media Management: Images and videos are uploaded and served via Cloudinary CDN for optimized performance.
+## 🏗️ Architecture
 
-Payment Gateway Integration: Razorpay payment gateway integrated with backend verification for secure transactions.
+### System Flow
 
-Shopping Cart: Users can add/remove products from their cart before making a purchase.
+```mermaid
+flowchart TD
+  A[User] -->|Login/Register| B[JWT Auth API]
+  A -->|Browse Products| C[GET /products]
+  A -->|Add to Cart| D[Redux Store]
+  A -->|Checkout| E[POST /createOrder]
+  E -->|Razorpay Payment| F[Razorpay Gateway]
+  A -->|Order Placed| G[MongoDB Orders]
+  A -->|Submit Review| H[POST /products/:id/review]
+  I[Admin] -->|Login| B
+  I -->|Manage Products| J[Admin Dashboard]
+  I -->|Track Orders| G
+  I -->|Manage Reviews| H
+  B -->|Token| A
+  C & G & H & J -->|Cache| K[Redis]
+```
 
-Reviews and Ratings: Users can submit reviews and ratings for purchased products.
+### Entity Relationship
 
-Performance Optimizations:
+```mermaid
+  USER ||--o{ ORDER : places
+  USER ||--o{ REVIEW : writes
+  ORDER ||--|{ ORDERITEM : includes
+  PRODUCT ||--o{ ORDERITEM : ordered
+  PRODUCT ||--o{ REVIEW : receives
 
-Load Balancing: To handle high traffic efficiently.
+  USER {
+    string _id
+    string name
+    string email
+    string password (hashed)
+    string role
+  }
+  PRODUCT {
+    string _id
+    string name
+    string description
+    number price
+    number stock
+    image[] images
+    video[] videos
+    string category
+  }
+  REVIEW {
+    string _id
+    ref user
+    ref product
+    string comment
+    number rating
+    date createdAt
+  }
+  ORDER {
+    string _id
+    ref user
+    object shippingInfo
+    array orderItems
+    object paymentInfo
+    date paidAt
+    string orderStatus
+    date deliveredAt
+  }
 
-Redis Caching: For faster database query responses.
-
-Lazy Loading: Images are loaded only when they come into view.
-
-Dynamic Imports: React components are dynamically imported to reduce initial load time.
-
-CDN Integration: Images and videos are served via a CDN for better performance.
-
-Technologies Used:
-
-Frontend: React.js, Tailwind CSS, Material-UI, React-Redux.
-
-Backend: Node.js, Express.js.
-
-Databases: MongoDB, Redis.
-
-Deployment:
-
-Live Link: https://aryaman-ecommerce.vercel.app/
-
-GitHub Repository: https://github.com/aryamantandon18/Ecommerce
-
-
+```

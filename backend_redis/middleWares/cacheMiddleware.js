@@ -4,7 +4,7 @@ import { redisClient } from "../server.js";
 // When the controller executes and calls res.json to send a response, this overridden version of res.json is triggered instead.
 // After caching the response, it calls res.sendResponse(body) to actually send the response back to the client. This is the original res.json function that was saved earlier.
 export const cacheMiddleware = async(req,res,next)=>{
-    const cacheKey = req.originalUrl;
+    const cacheKey = req.originalUrl;  // original
     try {
         const cachedData = await redisClient.get(cacheKey);
         if(cachedData){

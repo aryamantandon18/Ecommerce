@@ -1,0 +1,100 @@
+==============================
+        Kafka Core Concepts
+==============================
+
+📌 What is a Consumer Group in Kafka?
+
+A Consumer Group in Apache Kafka is a group of consumers that work together to consume data from a Kafka topic. 
+It’s a powerful concept that allows Kafka to scale horizontally and process messages in parallel across multiple consumers.
+
+------------------------------
+📦 Key Concepts:
+------------------------------
+
+1. Consumer Group ID
+   - Every Kafka consumer belongs to a consumer group, identified by a group ID (e.g., 'email-consumer-group').
+   - All consumers in the same group share the load of consuming messages.
+
+2. Parallelism
+   - If a topic has N partitions, then up to N consumers in a group can read from it in parallel.
+   - Each partition is assigned to only one consumer in the group at any time.
+
+3. Load Balancing
+   - Kafka automatically distributes partitions among the consumers in a group.
+   - If a new consumer joins or one crashes, Kafka rebalances the partitions.
+
+4. Message Delivery Semantics
+   - Each message is processed only once per group.
+   - Multiple groups can independently consume the same messages (like broadcasting).
+
+   - More consumers than partitions? → Some consumers will be idle.
+   - Fewer consumers than partitions? → Some consumers will process multiple partitions.
+
+
+==============================
+📚 Core Kafka Terminology
+==============================
+
+1. Topic
+   - A topic is a named stream of records (messages) in Kafka.
+   - Think of it like a category or channel where producers publish data and consumers subscribe to read it.
+
+   🔸 Example:
+     - error-logs topic
+     - info-logs topic
+     - Producers write to these topics, and consumers read from them.
+
+------------------------------
+
+2. Partition
+   - A partition is a subdivision of a topic.
+   - Each topic can have one or more partitions.
+   - Each partition is an ordered, immutable sequence of messages.
+   - Kafka assigns a unique offset (message index) to every message in a partition.
+
+   🔹 Why partitions?
+     - Parallelism: Multiple consumers can read from different partitions at the same time.
+     - Scalability: Kafka can distribute partitions across multiple brokers.
+
+   🔸 Example:
+     Topic: user-signups
+     - Partition 0 → [msg1, msg2, msg3]
+     - Partition 1 → [msg4, msg5]
+     - Partition 2 → [msg6, msg7]
+
+------------------------------
+
+3. Broker
+   - A broker is a Kafka server that stores data and serves client requests.
+   - Each Kafka cluster consists of multiple brokers.
+     - One broker = one Kafka server process
+     - Brokers handle read/write requests and store data for partitions
+   - Kafka also uses replication across brokers for fault tolerance.
+
+   🔸 Example:
+     If a cluster has 3 brokers:
+     - Broker 1 might store Partition 0 of user-signups
+     - Broker 2 might store Partition 1
+     - Broker 3 might store Partition 2
+
+==============================
+📊 Kafka Cluster Example
+==============================
+
+Kafka Cluster:
+ ┌────────────┐
+ │  Broker 1  │  ← Stores partition 0 of `orders`
+ └────┬───────┘
+      │
+ ┌────▼───────┐
+ │  Broker 2  │  ← Stores partition 1 of `orders`
+ └────┬───────┘
+      │
+ ┌────▼───────┐
+ │  Broker 3  │  ← Stores partition 2 of `orders`
+ └────────────┘
+
+Topic: orders
+├── Partition 0 → on Broker 1
+├── Partition 1 → on Broker 2
+└── Partition 2 → on Broker 3

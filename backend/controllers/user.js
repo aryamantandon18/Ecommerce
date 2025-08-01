@@ -7,14 +7,29 @@ import ErrorHandler from "../middleWares/error.js";
 import sendEmail from "../utils/sendEmail.js";
 import cloudinary from 'cloudinary';
 
+const uploadToCloudinary = (fileBuffer) => {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.v2.uploader.upload_stream(
+      {
+        folder: "avatars",
+        width: 150,
+        crop: "scale",
+      },
+      (error, result) => {
+        if (error) {
+          reject(error);  // Reject if there is an error
+        } else {
+          resolve(result);  // Resolve with the result from Cloudinary
+        }
+      }
+    );
+    uploadStream.end(fileBuffer);  // Send the file buffer to Cloudinary
+  });
+};
 export const register = asyncHandler(async(req,res,next)=>{
-const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-  folder:"avatars",
-  width:150,
-  crop:"scale"
-})
-
-   const {name,email,password,role} = req.body;
+  // console.log("Line 11",req.file);
+const myCloud = await uploadToCloudinary(req.file.buffer);
+  const {name,email,password,role} = req.body;
   let user = await Users.findOne({email})
 
   if(user){
@@ -23,7 +38,7 @@ const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
       message:"User already exist",
     })
   }
-  // const hashedPassword = await bcrypt.hash(password,10);
+
   user = await Users.create({name,email,password,
   avatar:{
     public_id:myCloud.public_id,
@@ -32,8 +47,7 @@ const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
   });
 
  sendCookie(res,user,"Registered Successfully")
- } )
-
+ })
 
 
 export const Login = async(req,res,next)=>{
@@ -58,11 +72,6 @@ export const Login = async(req,res,next)=>{
     message: "invalid password or email"})
   };
   sendCookie(res,user,`Welcome Back, ${user.name}`)
-
-  // res.status(200).json({
-  //   success:true,
-  //   user
-  // })
   
  } catch (error) {
   return next(new ErrorHandler(error.message, 500));
@@ -93,7 +102,7 @@ export const logout = (req,res) => {
  
 //Forgot password 
 export const forgotPassword = asyncHandler(async(req,res,next)=>{ 
- const user = await Users.findOne({email: req.body.email});    //jab forgot pswd krega toh email toh daalega 
+ const user = await Users.findOne({email: req.body.email});   
  if(!user){
   return next(new ErrorHandler("user not found ", 404));
  }

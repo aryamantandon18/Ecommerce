@@ -108,3 +108,33 @@
 // }
 
 // export default Header
+
+
+
+
+
+
+
+
+/* <Route path="/products/:keyword" element={<Products/>} /> */
+
+
+/* <Route path="/search" element={<Search/>} />     */
+
+// <ProtectedRoute exact path="/account" component={Profile} />
+// <Route path="/account" element={<ProtectedRoute element={<Profile />} />}/>
+
+/* <Route path="/me/update"   element={<ProtectedRoute element={<UpdateProfile/>}/>}   /> */
+
+
+
+  /* {stripeApiKey && (
+      <Route element={<ElementLayout stripe={loadStripe(stripeApiKey)} />} >
+      <Route path="/process/payment" element={<Payment />} />
+      </Route>
+    )} 
+    rzp_test_vHbrgp2hw5L3bw  
+    soCTLJsoOBir0aWxLAOFwA4v
+    */
+// 
+  // {/* <Route path="/order/:id" element={<OrderDetails/>} /> */}

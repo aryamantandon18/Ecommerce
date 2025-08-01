@@ -9,6 +9,7 @@ switch(action.type){
         return{
             loading:true,
             isAuthenticated:false,
+            error:null,
         }
     case LOGIN_SUCCESS:
     case REGISTER_USER_SUCCESS:

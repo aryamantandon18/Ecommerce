@@ -61,7 +61,7 @@ const Banner = () => {
                     {banners.map((el, i) => (
                         <img
                             draggable="false"
-                            className="h-[150px] sm:h-[280px] w-full object-cover "
+                            className="h-[150px] sm:h-[320px] w-full object-cover "
                             src={el}
                             alt="banner"
                             key={i}

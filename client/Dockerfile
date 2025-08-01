@@ -1,4 +1,13 @@
-FROM node:16
+FROM node:18-alpine
+
+# Declare build time env variables
+ARG REACT_APP_NODE_ENV
+ARG REACT_APP_SERVER_BASE_URL
+
+# set default values for env variables
+ENV REACT_APP_NODE_ENV=$REACT_APP_NODE_ENV
+ENV REACT_APP_SERVER_BASE_URL=$REACT_APP_SERVER_BASE_URL
+
 
 WORKDIR /app
 COPY package*.json ./

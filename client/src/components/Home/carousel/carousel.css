@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap');
+
+:root {
+    --header-color: white;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Carousel container */
+.carousel {
+    width: 100vw;
+    height: 40vh; 
+    overflow: hidden;
+    position: relative;
+    padding:0px 10px;
+    margin:0px auto;
+    margin-bottom: 10px; 
+    margin-top:10px;
+}
+
+/* List of carousel items */
+.carousel .list {
+    position: relative;
+    height: 100%;
+
+}
+
+/* Individual carousel item */
+.carousel .list .item {
+    width: 180px;
+    height: 250px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 70%;
+    border-radius: 20px;
+    background-position: center;
+    background-size: cover;
+    z-index: 0;
+    transition: 1s;
+}
+
+/* Adjusting first two items for a better layout */
+.carousel .list .item:nth-child(1),
+.carousel .list .item:nth-child(2) {
+    top: 0;
+    left: 0;
+    transform: translate(0, 0);
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+}
+
+/* Positioning third item */
+.carousel .list .item:nth-child(3) {
+    left: 67%;
+}
+
+/* Content inside each slide */
+.list .item .content {
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
+    width: 400px;
+    text-align: left;
+    color: #fff;
+    display: none;
+}
+
+.list .item:nth-child(2) .content {
+    display: block;
+}
+
+/* Title and description animations */
+.content .title {
+    font-size: 40px;
+    text-transform: uppercase;
+    color: var(--header-color);
+    font-weight: bold;
+    opacity: 0;
+    animation: animate 1s ease-in-out 0.5s 1 forwards;
+}
+
+.content .des {
+    margin-top: 10px;
+    font-size: 18px;
+    opacity: 0;
+    animation: animate 1s ease-in-out 0.7s 1 forwards;
+}
+
+/* Navigation Arrows */
+.arrows {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.arrows button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--header-color);
+    color: black;
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+}
+
+.arrows button:hover {
+    background: #dbdcdd;
+}
+
+/* Time Progress Bar */
+.carousel .timeRunning {
+    position: absolute;
+    z-index: 0;
+    width: 0%;
+    height: 4px;
+    background-color: var(--header-color);
+    left: 0;
+    top: 0;
+    animation: runningTime 7s linear infinite;
+}
+
+/* Animations */
+@keyframes runningTime {
+    from { width: 0%; }
+    to { width: 100%; }
+}
+
+@keyframes animate {
+    from {
+        opacity: 0;
+        transform: translate(0, 50px);
+        filter: blur(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(0, 0);
+        filter: blur(0);
+    }
+}
+
+/* Responsive Fixes */
+@media (max-width: 768px) {
+    .content .title {
+        font-size: 28px;
+    }
+    .content .des {
+        font-size: 16px;
+    }
+    .arrows button {
+        width: 40px;
+        height: 40px;
+    }
+}
